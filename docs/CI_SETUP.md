@@ -60,10 +60,4 @@ Without `S3_BUCKET` / `S3_DOMAIN`, uploads are skipped (tests still run).
 3. Open the job log → **Print report URLs**
 4. Open links in a browser (HTTP Basic Auth)
 
-## Out of scope
-
-- Slack notifications
-- Monetization suite
-- Secret JSON files (`api-data`, cards, proxy)
-
 See also [Local Setup](./LOCAL_SETUP.md) and [Reports](./REPORTS.md).

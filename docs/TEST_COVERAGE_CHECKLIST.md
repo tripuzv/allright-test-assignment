@@ -44,7 +44,7 @@ Per screen: screenshot, `test.step(\`Process ${screen} screen\`)`, wait for rout
 
 ### 3. API interception & schema validation
 
-Captured under `/api/v1` (excluding `tutor-urls` / `experiments`):
+Captured under `/api/v1`
 
 | After screen      | APIs                                                                                    | Schemas                           |
 | ----------------- | --------------------------------------------------------------------------------------- | --------------------------------- |
@@ -62,16 +62,6 @@ Against values stored on screens in `globalStore`:
 - [x] Phone (`userPhone`, digit-normalized) in create / me / update payloads
 - [x] Parent name (`parentName`)
 - [x] Child name (`childName`)
-
----
-
-## Not in scope (assignment)
-
-- [ ] Payment / booking / upsell flows
-- [ ] Amplitude / Reteno analytics validation
-- [ ] Registration cabinet / change-password
-- [ ] Monetization suite
-- [x] GitHub Actions smoke workflow + S3 report upload (Allure / Playwright / screenshots)
 
 ---
 
