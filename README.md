@@ -16,7 +16,6 @@ Playwright + TypeScript E2E framework for the All Right sign-up funnel (`stage.a
 - **[Test Coverage](./docs/TEST_COVERAGE_CHECKLIST.md)** — what the smoke flow covers
 - **[Reports Guide](./docs/REPORTS.md)** — local reports and artifacts
 - **[CI Setup](./docs/CI_SETUP.md)** — GitHub Actions smoke workflow
-- **[AWS reports hosting](./docs/AWS_S3_CLOUDFRONT_SETUP.md)** — S3 + CloudFront + HTTP Basic Auth
 
 ## Quick start
 
