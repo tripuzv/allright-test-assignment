@@ -1,6 +1,6 @@
 # Test Reports
 
-Reports are available **locally** after a run, and on **CI** are also uploaded to S3 / CloudFront (see [CI Setup](./CI_SETUP.md) and [AWS setup](./AWS_S3_CLOUDFRONT_SETUP.md)).
+Reports are available **locally** after a run, and on **CI** can also be uploaded to S3 / CloudFront (see [CI Setup](./CI_SETUP.md)).
 
 ## Playwright HTML report
 

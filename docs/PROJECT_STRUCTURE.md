@@ -115,4 +115,3 @@ allright-test-assignment/
 
 - Generated dirs are gitignored
 - `.env` is gitignored — see [Local Setup](./LOCAL_SETUP.md)
-- No payment/upsell/cabinet modules in this assignment

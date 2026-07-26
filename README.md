@@ -2,19 +2,19 @@
 
 Playwright + TypeScript E2E for the All Right Charlie sign-up funnel (`stage.allright.com`).
 
-## What the smoke asserts (contract)
+## What the smoke asserts
 
 1. User is created — `POST /api/v1/users` → id stored
 2. Trial entitlement — `user-balances` has TutorTypes `alias=trial` with available/bonus lessons > 0
 3. Funnel completed — thank-you (`request-gotten`)
 4. Identity fields from UI match API payloads (phone / email / names)
 
-Screen-by-screen POM is only the **means to reach** those outcomes.
+Screen-by-screen POM is only how the test reaches those outcomes.
 
 ## Assumptions
 
-- Stage creates **real** users and balances (side effects)
-- Charlie long funnel grants trial as **balance credit**, not necessarily a scheduled calendar lesson
+- Stage creates real users and balances (side effects)
+- Charlie long funnel grants trial as a balance credit, not necessarily a scheduled calendar lesson
 - Entry URL: `/uk/app/sign-up/long/charlie/age-range`
 
 ## Quick start
@@ -35,4 +35,3 @@ Reports: `npm run pw_report` / `npm run allure_report`
 - [Test Coverage](./docs/TEST_COVERAGE_CHECKLIST.md)
 - [Reports](./docs/REPORTS.md)
 - [CI Setup](./docs/CI_SETUP.md)
-- [AWS S3 + CloudFront](./docs/AWS_S3_CLOUDFRONT_SETUP.md)

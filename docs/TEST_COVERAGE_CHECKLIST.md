@@ -1,14 +1,11 @@
-# All Right — Test Coverage Checklist
+# Test coverage
 
+Smoke for Charlie long funnel on stage. Focus: business outcomes, not A/B copy.
 
-Assignment: **Part B / Variant 1** — business outcomes of Charlie long funnel on stage.
-
----
-
-## Business outcomes (contract)
+## Business outcomes
 
 - [x] User created — `POST /api/v1/users` → `createdUserId`
-- [x] Trial entitlement — `GET .../user-balances` → TutorTypes `alias=trial` + available/bonus lessons &gt; 0
+- [x] Trial entitlement — `GET .../user-balances` → TutorTypes `alias=trial` + available/bonus lessons > 0
 - [x] Funnel completed — `request-gotten` + `funnelCompleted`
 - [x] Final step `validateBusinessOutcomes()` after funnel
 
@@ -16,13 +13,13 @@ Assignment: **Part B / Variant 1** — business outcomes of Charlie long funnel 
 
 - [x] Identity: email / phone / parent / child names vs API payloads
 - [x] Ajv schemas for create / me / balances / update-email / update-user / child-hobbies
-- [x] Experiment alias/variant attached from `localStorage` (diagnostic, not a gate)
+- [x] Experiment alias/variant from `localStorage` (diagnostic only)
 - [x] Locale-independent option/CTA selectors
 
-## Means to reach outcomes (Charlie screens)
+## How the test reaches outcomes
 
-Mapper-driven walkthrough (not the test contract): age-range → … → user-info-* → request-gotten.  
-See historical list in git if needed; screens may change with A/B.
+Mapper-driven walkthrough: age-range → … → user-info-* → request-gotten.  
+Screen set may change with A/B; outcomes above are the contract.
 
 ## Infrastructure
 
@@ -31,7 +28,7 @@ See historical list in git if needed; screens may change with A/B.
 - [x] Allure + Playwright HTML + grouped screenshots
 - [x] GitHub Actions + optional S3/CloudFront report hosting
 
-## Notes / gaps
+## Notes
 
-- Trial here = **balance entitlement**, not always `lessons-scheduled &gt; 0` (observed on stage)
-- Mid-funnel still has many POs — candidate to slim down (see [APPROACH.md](./APPROACH.md))
+- Trial here means balance entitlement; `lessons-scheduled` may stay `0` on stage
+- Mid-funnel still has many page objects — candidate to slim down later

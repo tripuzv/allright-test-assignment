@@ -7,7 +7,6 @@ export abstract class OnboardingPo extends BasePo {
 
   abstract processScreen(): Promise<void>;
 
-  /** Terminal onboarding screen — funnel stops after processScreen, no wait for next route */
   get isLastStep(): boolean {
     return false;
   }

@@ -62,4 +62,4 @@ A `Dockerfile` is in the repo root if you need a containerized Playwright enviro
 docker build -t allright-pw .
 ```
 
-Prefer local `npx playwright test` for day-to-day work on this assignment.
+Prefer local `npx playwright test` for day-to-day work.

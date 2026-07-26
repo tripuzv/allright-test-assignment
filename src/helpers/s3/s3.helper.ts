@@ -56,7 +56,6 @@ export const s3Helper = {
     return `${s3Bucket}/web/${server}/${suiteName}/${reportType}/${stamp}`;
   },
 
-  /** Public CloudFront URL for an object under bucketPath (bucket/web/...). */
   buildPublicUrl(bucketPath: string, entryFile = "index.html"): string {
     const domain = (envHelper.s3Domain || "").replace(/\/$/, "");
     const relative = bucketPath.includes("/")

@@ -36,8 +36,6 @@ Also set: `IS_CI=true`, `HEADLESS=true`, `SUITE=smoke`.
 | `S3_DOMAIN`             | Variable            | `https://dxxxx.cloudfront.net` |
 | `AWS_DEFAULT_REGION`    | Variable (optional) | default `us-east-1`            |
 
-AWS console setup: **[AWS S3 + CloudFront](./AWS_S3_CLOUDFRONT_SETUP.md)**
-
 ## Report URLs in the job
 
 Step **Print report URLs** prints:
