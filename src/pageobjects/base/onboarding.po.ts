@@ -2,6 +2,7 @@ import { BasePo } from "./base.po.ts";
 import { Locator } from "@playwright/test";
 import { LocalStorageHelper } from "@helpers/storage/local-storage.helper.ts";
 import { timeouts } from "@constants/timeouts.constants.ts";
+import { mathHelper } from "@helpers/math/math.helper.ts";
 
 export abstract class OnboardingPo extends BasePo {
   private _screenUrl = "";
@@ -13,6 +14,11 @@ export abstract class OnboardingPo extends BasePo {
   }
 
   abstract processScreen(): Promise<void>;
+
+  /** Terminal onboarding screen — funnel stops after processScreen, no wait for next route */
+  get isLastStep(): boolean {
+    return false;
+  }
 
   set screenUrl(value: string) {
     this._screenUrl = value;
@@ -28,29 +34,55 @@ export abstract class OnboardingPo extends BasePo {
     return segments.at(-1) ?? "";
   }
 
+  get optionButtons(): Locator {
+    return this.page.locator("[data-step-name] button[data-mode]");
+  }
+
   get options(): Promise<Locator[]> {
-    return this.page.locator("[data-testid^='obOption-']").all();
+    return this.optionButtons.all();
   }
 
   get continueButton(): Locator {
-      return this.page.getByTestId('obContinueBtn')
+    return this.page.getByTestId("obContinueBtn");
   }
 
   get bottomContainer(): Locator {
-    return this.page.locator('div[class*="bottomContainer"]:not([class*="bottomContainerFake"])')
+    return this.page.locator(
+      'div[class*="bottomContainer"]:not([class*="bottomContainerFake"])',
+    );
   }
-  
+
   get progressBar(): Locator {
     return this.page.getByTestId("progressBar");
   }
 
+  /** Locale-independent CTA: orange = continue/submit, fuchsia-secondary = info next */
+  get funnelContinueButton(): Locator {
+    return this.page
+      .locator("[data-step-name]")
+      .locator("button.btn.orange, button.btn.fuchsia-secondary");
+  }
+
+  async clickFunnelContinue(force = false): Promise<void> {
+    const button = this.funnelContinueButton;
+    await button.waitFor({ state: "visible", timeout: timeouts.s });
+    await this.elementHelper.waitForClickable(button);
+    await this.elementHelper.click(button, force);
+    this.logger.info("Funnel continue button clicked");
+  }
+
   async clickContinueButton(force = false): Promise<void> {
-    const continueButtonElement = await this.bottomContainer.isVisible() ? this.bottomContainer.getByTestId('obContinueBtn') : this.continueButton;
-    await continueButtonElement.waitFor({ state: 'visible', timeout: timeouts.s });
+    const continueButtonElement = (await this.bottomContainer.isVisible())
+      ? this.bottomContainer.getByTestId("obContinueBtn")
+      : this.continueButton;
+    await continueButtonElement.waitFor({
+      state: "visible",
+      timeout: timeouts.s,
+    });
     await this.elementHelper.waitForClickable(continueButtonElement);
     await this.elementHelper.scrollToEnd();
     await this.elementHelper.click(continueButtonElement, force);
-    this.logger.info('Continue button clicked');
+    this.logger.info("Continue button clicked");
   }
 
   async isInputOptionSelected(
@@ -63,7 +95,11 @@ export abstract class OnboardingPo extends BasePo {
     return options[index].isChecked();
   }
 
-  async selectOptionByIndex(options: Locator[], index: number, isForce?: boolean): Promise<void> {
+  async selectOptionByIndex(
+    options: Locator[],
+    index: number,
+    isForce?: boolean,
+  ): Promise<void> {
     if (index < 0 || index >= options.length) {
       throw new Error(`Index ${index} is out of bounds for options array.`);
     }
@@ -71,8 +107,11 @@ export abstract class OnboardingPo extends BasePo {
     await this.elementHelper.click(options[index], isForce ?? false);
   }
 
-  async selectRandomOption(options: Locator[], isForce?: boolean): Promise<void> {
-    const randomIndex = Math.floor(Math.random() * options.length);
+  async selectRandomOption(
+    options: Locator[],
+    isForce?: boolean,
+  ): Promise<void> {
+    const randomIndex = mathHelper.random.getNumber(options.length);
     const optionText = await options[randomIndex].textContent();
     await this.selectOptionByIndex(options, randomIndex, isForce);
     this.logger.info(`Selected option ${randomIndex}, ${optionText}`);
@@ -88,7 +127,7 @@ export abstract class OnboardingPo extends BasePo {
       throw new Error(`No options found on screen: ${screenName}`);
     }
 
-    const randomIndex = Math.floor(Math.random() * opts.length);
+    const randomIndex = mathHelper.random.getNumber(opts.length);
     const text = ((await opts[randomIndex].textContent()) || "")
       .trim()
       .replace(/\s+/g, " ");
@@ -99,5 +138,13 @@ export abstract class OnboardingPo extends BasePo {
 
     this.logger.info(`Selected option on ${screenName}: ${text}`);
     return text;
+  }
+
+  protected async waitForScreenReady(
+    root: Locator,
+    title: Locator,
+  ): Promise<void> {
+    await root.waitFor({ state: "visible", timeout: timeouts.s });
+    await title.waitFor({ state: "visible", timeout: timeouts.s });
   }
 }

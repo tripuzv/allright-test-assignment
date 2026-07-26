@@ -5,7 +5,7 @@ import { useTestContext } from "@context/use.test.context.ts";
 import { timeouts } from "@constants/timeouts.constants.ts";
 import { envHelper } from "@helpers/env/env.helper.ts";
 
-test.setTimeout(6 * timeouts.minute);
+test.setTimeout(2 * timeouts.minute);
 test("@smoke Test", async ({ page }, testInfo) => {
   let startService: StartService;
   let onboardingService: OnboardingService;

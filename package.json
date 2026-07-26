@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "lint:quiet": "eslint . --quiet",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "allure_report": "allure generate --clean && allure open",
+    "pw_report": "npx playwright show-report"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -40,6 +48,7 @@
     "fs": "^0.0.1-security",
     "jsdom": "24.0.0",
     "log4js": "6.9.1",
+    "phone-number-generator-js": "^1.4.0",
     "random-int": "^3.0.0",
     "sharp": "^0.33.5",
     "ua-parser-js": "2.0.2"

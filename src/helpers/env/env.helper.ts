@@ -39,6 +39,13 @@ export class EnvHelper {
     const allowed: Array<"chromium" | "firefox" | "webkit"> = ["chromium", "firefox", "webkit"];
     return allowed.includes(value as any) ? (value as "chromium" | "firefox" | "webkit") : undefined;
   }
+
+  get whoFillsForm(): "child" | "parent" {
+    const value = this.getVariableByName(EnvVariable.WHO_FILLS_FORM, true)
+      ?.trim()
+      .toLowerCase();
+    return value === "parent" ? "parent" : "child";
+  }
 }
 
 export const envHelper = new EnvHelper();

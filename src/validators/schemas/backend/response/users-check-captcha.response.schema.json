@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "is_show_captcha": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "captcha_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": true,
+  "required": [
+    "is_show_captcha"
+  ]
+}

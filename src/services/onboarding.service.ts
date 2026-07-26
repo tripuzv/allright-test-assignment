@@ -7,14 +7,21 @@ import { step } from "@decorators/step.ts";
 import { templateMapper } from "@data/templates/onboarding.template.mapper.ts";
 import { timeouts } from "@constants/timeouts.constants";
 import { OnboardingPo } from "@pom/base/onboarding.po.ts";
+import { ApiNetworkInterceptor } from "@interceptors/api-network.interceptor.ts";
+import { OnboardingApiValidator } from "@validators/onboarding-api.validator.ts";
+import test from "@playwright/test";
 
 export class OnboardingService extends BaseService {
   readonly logger = LoggerHelper.getInstance().getLogger();
   private screenShotHelper: ScreenshotHelper;
+  private apiInterceptor: ApiNetworkInterceptor;
+  private apiValidator: OnboardingApiValidator;
 
   constructor() {
     super();
     this.screenShotHelper = new ScreenshotHelper();
+    this.apiInterceptor = new ApiNetworkInterceptor(this.page);
+    this.apiValidator = new OnboardingApiValidator(this.apiInterceptor);
   }
 
   private getCurrentScreenPartPath(): string {
@@ -67,30 +74,69 @@ export class OnboardingService extends BaseService {
 
   @step("Process Onboarding Flow")
   async passObFunnel(): Promise<void> {
-    while (true) {
-      const screenName = this.getCurrentScreenPartPath();
-      const config = templateMapper[screenName];
+    this.apiInterceptor.start();
 
-      if (!config) {
-        this.logger.info(
-          `No mapper entry for screen "${screenName}", stopping onboarding funnel`,
-        );
-        break;
+    try {
+      while (true) {
+        const screenName = this.getCurrentScreenPartPath();
+        const config = templateMapper[screenName];
+
+        if (!config) {
+          this.logger.info(
+            `No mapper entry for screen "${screenName}", stopping onboarding funnel`,
+          );
+          break;
+        }
+
+        const pageObject = new config.pageReference() as OnboardingPo;
+        pageObject.screenUrl = screenName;
+
+        let isLastStep = false;
+
+        await test.step(`Process ${screenName} screen`, async () => {
+          globalStore.set("currentScreen", screenName);
+          this.logger.info(`Processing onboarding screen: ${screenName}`);
+
+          await this.screenShotHelper.capture({ name: screenName });
+          await pageObject.processScreen();
+          await this.validateApisAfterScreen(screenName);
+
+          if (pageObject.isLastStep) {
+            this.logger.info(
+              `Last onboarding screen "${screenName}" processed, stopping funnel`,
+            );
+            isLastStep = true;
+            return;
+          }
+
+          await this.waitUntilOnboardingScreenChanges(screenName);
+        });
+
+        if (isLastStep) {
+          break;
+        }
       }
 
-      globalStore.set("currentScreen", screenName);
-      this.logger.info(`Processing onboarding screen: ${screenName}`);
-
-      await this.screenShotHelper.capture({ name: screenName });
-
-      const pageObject = new config.pageReference() as OnboardingPo;
-      pageObject.screenUrl = screenName;
-      await pageObject.processScreen();
-
-      await this.waitUntilOnboardingScreenChanges(screenName);
+      this.logger.info("Onboarding flow completed successfully");
+    } finally {
+      this.apiInterceptor.stop();
     }
+  }
 
-    this.logger.info("Onboarding flow completed successfully");
+  private async validateApisAfterScreen(screenName: string): Promise<void> {
+    switch (screenName) {
+      case "child-hobby":
+        await this.apiValidator.validateChildHobbies();
+        break;
+      case "user-info-phone":
+        await this.apiValidator.validateUserCreate();
+        break;
+      case "user-info-email":
+        await this.apiValidator.validateUserEmailUpdate();
+        break;
+      default:
+        break;
+    }
   }
 
   @step("Wait for onboarding screen changes")
@@ -110,38 +156,5 @@ export class OnboardingService extends BaseService {
     );
 
     await this.page.waitForTimeout(timeouts.xxs);
-  }
-
-  private validateFunnelTemplates(
-    funnel: Array<{
-      route: string;
-      template?: string;
-      baseScreen?: { template?: string };
-    }>,
-    firstPaymentScreenIndex: number,
-  ): void {
-    const endExclusive =
-      firstPaymentScreenIndex >= 0 ? firstPaymentScreenIndex : funnel.length;
-    const missing: Array<{ route: string; template: string }> = [];
-    for (let i = 0; i < endExclusive; i++) {
-      const page = funnel[i];
-      const templateName = (page.template ?? page.baseScreen?.template) as
-        | keyof typeof templateMapper
-        | undefined;
-      if (!templateName || !templateMapper[templateName]) {
-        missing.push({
-          route: page.route,
-          template: String(templateName ?? "(missing)"),
-        });
-      }
-    }
-    if (missing.length > 0) {
-      const details = missing
-        .map((m) => `route "${m.route}" -> template "${m.template}"`)
-        .join("; ");
-      throw new Error(
-        `Funnel template validation failed (onboarding segment only, before payment): the following screens have no matching entry in onboarding.template.mapper: ${details}. Add the template to onboarding.template.mapper or fix the funnel config.`,
-      );
-    }
   }
 }

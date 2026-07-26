@@ -17,7 +17,18 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: "html",
+  reporter: [
+    ["list"],
+    ["html", { open: "on-failure" }],
+    [
+      "allure-playwright",
+      {
+        resultsDir: "allure-results",
+        detail: false,
+        suiteTitle: false,
+      },
+    ],
+  ],
   use: {
     headless: process.env.HEADLESS === "true",
     locale: "en-US",

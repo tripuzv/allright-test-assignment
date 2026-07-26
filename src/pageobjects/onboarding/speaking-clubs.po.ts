@@ -2,8 +2,8 @@ import { OnboardingPo } from "@pom/base/onboarding.po.ts";
 import { Locator } from "@playwright/test";
 import { mathHelper } from "@helpers/math/math.helper.ts";
 
-export class AgeRangePo extends OnboardingPo {
-  private readonly stepName = "age-range";
+export class SpeakingClubsPo extends OnboardingPo {
+  private readonly stepName = "speaking-clubs";
 
   get root(): Locator {
     return this.page.locator(`[data-step-name="${this.stepName}"]`);
