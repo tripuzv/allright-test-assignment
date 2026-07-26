@@ -10,6 +10,7 @@ import { globalStore } from "@helpers/storage/global-data.storage.ts";
 
 type JsonApiUserPayload = {
   data?: {
+    id?: string | number;
     attributes?: Record<string, unknown>;
     relationships?: {
       "user-metum"?: {
@@ -21,6 +22,26 @@ type JsonApiUserPayload = {
   };
   included?: Array<{
     type?: string;
+    id?: string;
+    attributes?: Record<string, unknown>;
+  }>;
+};
+
+type UserBalancesPayload = {
+  data?: Array<{
+    type?: string;
+    attributes?: Record<string, unknown>;
+    relationships?: {
+      "tutor-type"?: {
+        data?: {
+          id?: string;
+        };
+      };
+    };
+  }>;
+  included?: Array<{
+    type?: string;
+    id?: string;
     attributes?: Record<string, unknown>;
   }>;
 };
@@ -90,6 +111,16 @@ export class OnboardingApiValidator {
       label: "POST /api/v1/users",
     });
 
+    const createdUserId = this.extractUserId(create.responseBody);
+    await assertHelper.expectEquals({
+      actual: Boolean(createdUserId),
+      expected: true,
+      message: "POST /api/v1/users response must contain created user id",
+    });
+    if (createdUserId) {
+      globalStore.set("createdUserId", createdUserId);
+    }
+
     const me = await this.interceptor.waitFor("GET", /\/api\/v1\/users\/?$/, {
       timeout: timeouts.s,
       afterTimestamp: create.timestamp,
@@ -121,6 +152,7 @@ export class OnboardingApiValidator {
       apiType: "backend",
       schemaName: "user-balances",
     });
+    await this.validateTrialEntitlement(balances.responseBody);
   }
 
   @step("Validate user email update API schemas")
@@ -181,6 +213,87 @@ export class OnboardingApiValidator {
     });
   }
 
+  @step("Validate quiz business outcomes (user created + trial entitlement)")
+  async validateBusinessOutcomes(): Promise<void> {
+    const createdUserId = globalStore.get<string>("createdUserId");
+    await assertHelper.expectEquals({
+      actual: Boolean(createdUserId),
+      expected: true,
+      message: "Business outcome: user must be created (createdUserId in store)",
+    });
+
+    const balances = this.interceptor.findLatest(
+      "GET",
+      /\/api\/v1\/users\/\d+\/user-balances\/?$/,
+    );
+    await assertHelper.expectEquals({
+      actual: Boolean(balances),
+      expected: true,
+      message: "Business outcome: user-balances response must be captured",
+    });
+    if (balances) {
+      await this.assertOk(balances);
+      await this.validateTrialEntitlement(balances.responseBody);
+    }
+
+    const funnelCompleted = globalStore.get<boolean>("funnelCompleted");
+    await assertHelper.expectEquals({
+      actual: funnelCompleted === true,
+      expected: true,
+      message:
+        "Business outcome: funnel must reach thank-you / request-gotten",
+    });
+  }
+
+  private async validateTrialEntitlement(body: unknown): Promise<void> {
+    const payload = body as UserBalancesPayload;
+    const included = payload?.included ?? [];
+    const trialTutorTypeIds = new Set(
+      included
+        .filter(
+          (item) =>
+            item.type === "TutorTypes" &&
+            item.attributes?.alias === "trial" &&
+            item.id,
+        )
+        .map((item) => String(item.id)),
+    );
+
+    await assertHelper.expectEquals({
+      actual: trialTutorTypeIds.size > 0,
+      expected: true,
+      message:
+        'Business outcome: user-balances.included must contain TutorTypes with alias "trial"',
+    });
+
+    const trialBalances = (payload?.data ?? []).filter((row) => {
+      const tutorTypeId = row.relationships?.["tutor-type"]?.data?.id;
+      return tutorTypeId && trialTutorTypeIds.has(String(tutorTypeId));
+    });
+
+    await assertHelper.expectEquals({
+      actual: trialBalances.length > 0,
+      expected: true,
+      message:
+        "Business outcome: user-balances.data must include a row linked to trial tutor-type",
+    });
+
+    const hasAvailableTrial = trialBalances.some((row) => {
+      const available = Number(row.attributes?.["lessons-available"] ?? 0);
+      const bonus = Number(row.attributes?.["lessons-bonus"] ?? 0);
+      return available > 0 || bonus > 0;
+    });
+
+    await assertHelper.expectEquals({
+      actual: hasAvailableTrial,
+      expected: true,
+      message:
+        "Business outcome: trial balance must have lessons-available or lessons-bonus > 0",
+    });
+
+    globalStore.set("trialEntitlementGranted", hasAvailableTrial);
+  }
+
   @step("Validate user identity fields against entered OB data")
   private async validateUserIdentityFields(
     call: CapturedApiCall,
@@ -237,6 +350,16 @@ export class OnboardingApiValidator {
         });
       }
     }
+  }
+
+  private extractUserId(body: unknown): string | null {
+    const payload = body as JsonApiUserPayload;
+    const id = payload?.data?.id;
+    if (id === undefined || id === null) {
+      return null;
+    }
+    const asString = String(id).trim();
+    return asString.length ? asString : null;
   }
 
   private extractIdentityFields(body: JsonApiUserPayload): {

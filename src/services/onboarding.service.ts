@@ -62,6 +62,7 @@ export class OnboardingService extends BaseService {
             this.logger.info(
               `Last onboarding screen "${screenName}" processed, stopping funnel`,
             );
+            globalStore.set("funnelCompleted", true);
             isLastStep = true;
             return;
           }
@@ -74,6 +75,7 @@ export class OnboardingService extends BaseService {
         }
       }
 
+      await this.apiValidator.validateBusinessOutcomes();
       this.logger.info("Onboarding flow completed successfully");
     } finally {
       this.apiInterceptor.stop();

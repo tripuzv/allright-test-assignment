@@ -1,84 +1,37 @@
 # All Right — Test Coverage Checklist
 
-_Last updated: 26 July 2026_
 
-Scope of this assignment: **Charlie long sign-up funnel** smoke E2E on stage/prod.
-
----
-
-## Fully covered
-
-### 1. Start / entry
-
-- [x] Open funnel URL (`/uk/app/sign-up/long/charlie/age-range`)
-- [x] Cookie banner accept/reject
-- [x] Read running experiment from `localStorage` → `globalStore` + Allure attachment
-
-### 2. Onboarding screens (Charlie)
-
-Processed via `OnboardingService` + `onboarding.template.mapper.ts` (locale-independent locators):
-
-- [x] `age-range`
-- [x] `child-know-english`
-- [x] `plan-lesson`
-- [x] `main-thing`
-- [x] `schedule-flexibility`
-- [x] `control-schedule` (info)
-- [x] `child-device`
-- [x] `child-device-advice` (info)
-- [x] `speaking-clubs`
-- [x] `speaking-clubs-info` (info)
-- [x] `progress`
-- [x] `homework`
-- [x] `repeat-material` (info)
-- [x] `lesson-format`
-- [x] `child-name` (input → `globalStore.childName`)
-- [x] `temperament-child`
-- [x] `child-hobby` (multi-select + JS click)
-- [x] `user-info-name` (parent name → `globalStore.parentName`, who-fills modal)
-- [x] `user-info-phone` (valid E.164 / national for selected country → `globalStore.userPhone`)
-- [x] `user-info-email` → `globalStore.userEmail`
-- [x] `request-gotten` (thank-you, last step — UI validation only)
-
-Per screen: screenshot, `test.step(\`Process ${screen} screen\`)`, wait for route change (except last).
-
-### 3. API interception & schema validation
-
-Captured under `/api/v1`
-
-| After screen      | APIs                                                                                    | Schemas                           |
-| ----------------- | --------------------------------------------------------------------------------------- | --------------------------------- |
-| `child-hobby`     | `GET /child-hobbies`                                                                    | response                          |
-| `user-info-phone` | `GET /users/check-captcha`, `POST /users`, `GET /users`, `GET /users/:id/user-balances` | request/response where applicable |
-| `user-info-email` | `PATCH /users/:id/update-email`, `PATCH /users/:id`                                     | request + response                |
-
-Ajv JSON Schema (`src/validators/schemas/backend/`).
-
-### 4. Identity field checks
-
-Against values stored on screens in `globalStore`:
-
-- [x] Email (`userEmail`) in update-email / update-user payloads
-- [x] Phone (`userPhone`, digit-normalized) in create / me / update payloads
-- [x] Parent name (`parentName`)
-- [x] Child name (`childName`)
+Assignment: **Part B / Variant 1** — business outcomes of Charlie long funnel on stage.
 
 ---
+
+## Business outcomes (contract)
+
+- [x] User created — `POST /api/v1/users` → `createdUserId`
+- [x] Trial entitlement — `GET .../user-balances` → TutorTypes `alias=trial` + available/bonus lessons &gt; 0
+- [x] Funnel completed — `request-gotten` + `funnelCompleted`
+- [x] Final step `validateBusinessOutcomes()` after funnel
+
+## Supporting checks
+
+- [x] Identity: email / phone / parent / child names vs API payloads
+- [x] Ajv schemas for create / me / balances / update-email / update-user / child-hobbies
+- [x] Experiment alias/variant attached from `localStorage` (diagnostic, not a gate)
+- [x] Locale-independent option/CTA selectors
+
+## Means to reach outcomes (Charlie screens)
+
+Mapper-driven walkthrough (not the test contract): age-range → … → user-info-* → request-gotten.  
+See historical list in git if needed; screens may change with A/B.
 
 ## Infrastructure
 
-- [x] Playwright + TypeScript
-- [x] POM + services
+- [x] Playwright + TypeScript, POM + services
 - [x] `ApiNetworkInterceptor`
-- [x] Allure + Playwright HTML + traces
-- [x] Screenshots per onboarding screen
-- [x] Soft assertions / logger / env config
-- [x] Mobile device project (`smoke`, default iOS WebKit)
+- [x] Allure + Playwright HTML + grouped screenshots
+- [x] GitHub Actions + optional S3/CloudFront report hosting
 
----
+## Notes / gaps
 
-## Notes
-
-- Entry path is hardcoded in `tests/smoke.spec.ts` for Charlie long funnel.
-- Thank-you screen `request-gotten` is marked `isLastStep` — funnel stops after UI validation.
-- Phone generation uses `phone-number-generator-js` + `libphonenumber-js` for national digits.
+- Trial here = **balance entitlement**, not always `lessons-scheduled &gt; 0` (observed on stage)
+- Mid-funnel still has many POs — candidate to slim down (see [APPROACH.md](./APPROACH.md))

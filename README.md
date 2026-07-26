@@ -1,34 +1,38 @@
 # Allright test assignment
 
-Playwright + TypeScript E2E framework for the All Right sign-up funnel (`stage.allright.com` / `allright.com`). Covers the long Charlie onboarding quiz through user registration and thank-you screen, with API schema checks and identity-field validations.
+Playwright + TypeScript E2E for the All Right Charlie sign-up funnel (`stage.allright.com`).
 
-## Overview
+## What the smoke asserts (contract)
 
-- **Flow**: smoke suite walks the Charlie onboarding funnel end-to-end (options, forms, thank-you / `request-gotten`)
-- **Architecture**: Page Object Model, service layer (`StartService`, `OnboardingService`), network interceptor + Ajv schema validation
-- **Reporting**: Playwright HTML report, Allure, per-screen screenshots, traces
-- **Environments**: `stage` / `prod` via `.env` (`SERVER`)
+1. User is created — `POST /api/v1/users` → id stored
+2. Trial entitlement — `user-balances` has TutorTypes `alias=trial` with available/bonus lessons > 0
+3. Funnel completed — thank-you (`request-gotten`)
+4. Identity fields from UI match API payloads (phone / email / names)
 
-## Documentation
+Screen-by-screen POM is only the **means to reach** those outcomes.
 
-- **[Local Setup Guide](./docs/LOCAL_SETUP.md)** — install and run tests locally
-- **[Project Structure](./docs/PROJECT_STRUCTURE.md)** — directories and architecture
-- **[Test Coverage](./docs/TEST_COVERAGE_CHECKLIST.md)** — what the smoke flow covers
-- **[Reports Guide](./docs/REPORTS.md)** — local reports and artifacts
-- **[CI Setup](./docs/CI_SETUP.md)** — GitHub Actions smoke workflow
+## Assumptions
+
+- Stage creates **real** users and balances (side effects)
+- Charlie long funnel grants trial as **balance credit**, not necessarily a scheduled calendar lesson
+- Entry URL: `/uk/app/sign-up/long/charlie/age-range`
 
 ## Quick start
 
 ```bash
 npm install
 npx playwright install
-# create .env — see Local Setup
+# create .env — see docs/LOCAL_SETUP.md
 npx playwright test --project=smoke
 ```
 
-Open reports:
+Reports: `npm run pw_report` / `npm run allure_report`
 
-```bash
-npm run pw_report
-npm run allure_report
-```
+## Docs
+
+- [Local Setup](./docs/LOCAL_SETUP.md)
+- [Project Structure](./docs/PROJECT_STRUCTURE.md)
+- [Test Coverage](./docs/TEST_COVERAGE_CHECKLIST.md)
+- [Reports](./docs/REPORTS.md)
+- [CI Setup](./docs/CI_SETUP.md)
+- [AWS S3 + CloudFront](./docs/AWS_S3_CLOUDFRONT_SETUP.md)
