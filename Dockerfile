@@ -1,6 +1,6 @@
-FROM mcr.microsoft.com/playwright:v1.62.0-noble
+FROM mcr.microsoft.com/playwright:v1.61.0-noble
 
-RUN npm install -g playwright@1.62.0
+RUN npm install -g playwright@1.61.0
 
 EXPOSE 3000
 

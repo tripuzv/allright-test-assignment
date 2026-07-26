@@ -6,155 +6,65 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "attributes": {
           "type": "object",
           "properties": {
             "created-at": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": ["string", "null"],
               "format": "date-time"
             },
             "name": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "name-latin": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "last-name": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "email": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "new-email": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "password": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "password-confirmation": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "reset-token": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "balance": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "currency": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "tutor-filter": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "type": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "state": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "invited-by": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "last-login-time": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "settings": {
               "type": "object",
               "properties": {
                 "is_auto_change_tutor": {
-                  "type": [
-                    "number",
-                    "null"
-                  ]
+                  "type": ["number", "null"]
                 }
               },
               "additionalProperties": true
@@ -163,234 +73,100 @@
               "type": "object",
               "properties": {
                 "invite_link": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 },
                 "communication": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 },
                 "is_viewing_subscriptions": {
-                  "type": [
-                    "number",
-                    "null"
-                  ]
+                  "type": ["number", "null"]
                 },
                 "auto_is_tutor_accept_student": {
-                  "type": [
-                    "number",
-                    "null"
-                  ]
+                  "type": ["number", "null"]
                 },
                 "has_email_on_signup": {
-                  "type": [
-                    "number",
-                    "null"
-                  ]
+                  "type": ["number", "null"]
                 },
                 "update_from_funnel": {
-                  "type": [
-                    "number",
-                    "null"
-                  ]
+                  "type": ["number", "null"]
                 },
                 "predict_conv": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 },
                 "predict_v2_conv": {
-                  "type": [
-                    "number",
-                    "null"
-                  ]
+                  "type": ["number", "null"]
                 }
               },
               "additionalProperties": true
             },
             "phone": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "additional-phone": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "location": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "reg-from-landing": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "specializations": {
               "type": "array"
             },
             "is-tutor-accept-student": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "private-lessons": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "picture": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "picture-extname": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "picture-date-update": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "admin": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "time-zone": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "lang": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "lesson-duration": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "is-password-gen": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "total-lessons-cnt": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "scheduled-lessons-cnt": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "lesson-id": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "english-level": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "course-id": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "date-of-birth": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "gender": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "wishes-for-learning": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "teach-languages": {
               "type": "array"
@@ -405,10 +181,7 @@
               "type": "array",
               "minItems": 1,
               "items": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": ["string", "null"]
               }
             },
             "tutor-locales": {
@@ -418,101 +191,46 @@
               "type": "array"
             },
             "give-homework": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "use-old-price": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "registration-promo": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "budget": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "related-profile": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "reg-from": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "partner": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "tutor-type-id": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "is-chat2desk-client-id": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "is-renew-student": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "utm-source": {
               "type": "object",
               "properties": {
                 "src": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 },
                 "childHobby": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 },
                 "utm_funnel": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 }
               },
               "additionalProperties": true
@@ -521,369 +239,150 @@
               "type": "array"
             },
             "tutor-sort-rate": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "tutor-sort-rank": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "tutor-dismissal-date": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "is-subscription": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "is-unlimited-subscription": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "reg-country-code": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "quantity-of-lessons-per-week": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "additional-courses": {
               "type": "array",
               "minItems": 1,
               "items": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               }
             },
             "tpr": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "deletion-reason": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "paid-bonus": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "lead-bonus": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "is-adult": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "is-teach-adults": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "is-tutor-accredited": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "use-separated-balances": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "price-url": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "can-tutor-accept-student": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "admin-trial-mark": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "admin-paid-mark": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "tutor-probation": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "returned-student": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "tutor-badge": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "family-size": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "price-country": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "price-country-code": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "from-permanent-schedule": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "lesson-time-start": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "consent-settings": {
               "type": "object",
               "properties": {
                 "ad_storage": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 },
                 "ad_user_data": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 },
                 "ad_personalization": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 },
                 "analytics_storage": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 },
                 "updated_at": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "format": "date-time"
                 }
               },
               "additionalProperties": true
             },
             "price": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "skype": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "child-age": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "all-right-plus-subscription-status": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "new-password": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "social-id": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "sign": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "provider": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "social-auth-code": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "identification": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "is-email-confirmed": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "is-invalid-email": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "subscriptions": {
               "type": "object",
@@ -892,10 +391,7 @@
                   "type": "object",
                   "properties": {
                     "upcoming_lesson": {
-                      "type": [
-                        "number",
-                        "null"
-                      ]
+                      "type": ["number", "null"]
                     }
                   },
                   "additionalProperties": true
@@ -904,34 +400,19 @@
                   "type": "object",
                   "properties": {
                     "lesson_events": {
-                      "type": [
-                        "number",
-                        "null"
-                      ]
+                      "type": ["number", "null"]
                     },
                     "speaking_club": {
-                      "type": [
-                        "number",
-                        "null"
-                      ]
+                      "type": ["number", "null"]
                     },
                     "upcoming_lesson": {
-                      "type": [
-                        "number",
-                        "null"
-                      ]
+                      "type": ["number", "null"]
                     },
                     "feedback_lessons": {
-                      "type": [
-                        "number",
-                        "null"
-                      ]
+                      "type": ["number", "null"]
                     },
                     "news_discounts_share": {
-                      "type": [
-                        "number",
-                        "null"
-                      ]
+                      "type": ["number", "null"]
                     }
                   },
                   "additionalProperties": true
@@ -940,10 +421,7 @@
                   "type": "object",
                   "properties": {
                     "upcoming_lesson": {
-                      "type": [
-                        "number",
-                        "null"
-                      ]
+                      "type": ["number", "null"]
                     }
                   },
                   "additionalProperties": true
@@ -952,10 +430,7 @@
                   "type": "object",
                   "properties": {
                     "status": {
-                      "type": [
-                        "number",
-                        "null"
-                      ]
+                      "type": ["number", "null"]
                     }
                   },
                   "additionalProperties": true
@@ -964,329 +439,128 @@
               "additionalProperties": true
             },
             "link-to-amocrm": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "link-to-lead-amocrm": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "link-to-zoho-crm": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "link-to-lead-zoho-crm": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "amo-funnel-name": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "amo-id": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "amo-lead-id": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "zoho-contact-id": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "zoho-lead-id": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "intercom-contact-link": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "marks-cnt": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "marks-sum": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "total-marks-cnt": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "reviews-quantity": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "video-chat-url": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "charlie-ai-app-url": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "video-chat-type": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "is-pin-to-video-server": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "sort-order": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "tutor-state": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "sale": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "bonus-amount": {
-              "type": [
-                "number",
-                "null"
-              ]
+              "type": ["number", "null"]
             },
             "bonus-currency": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "bonus-expire-at": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "admin-notes": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "instagram-link": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "facebook-link": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "origin-lang": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "learn-language": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "main-learn-subject": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "learn-subjects": {
               "type": "array",
               "minItems": 1,
               "items": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": ["string", "null"]
               }
             },
             "teach-subject": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "study-notes": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "promo-code": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "is-phone-confirmed": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             },
             "lesson-tutor-type-id": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "created-by-id": {
-              "type": [
-                "null",
-                "string",
-                "number",
-                "boolean",
-                "object",
-                "array"
-              ]
+              "type": ["null", "string", "number", "boolean", "object", "array"]
             },
             "utm_source": {
               "type": "object",
               "properties": {
                 "src": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 },
                 "utm_funnel": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
+                  "type": ["string", "null"]
                 }
               },
               "additionalProperties": true
@@ -1298,38 +572,23 @@
                 "type": "object",
                 "properties": {
                   "alias": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": ["string", "null"]
                   },
                   "variant": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": ["string", "null"]
                   }
                 },
                 "additionalProperties": true
               }
             },
             "ga_client_id": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "fb_client_id": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "is-deleted": {
-              "type": [
-                "boolean",
-                "null"
-              ]
+              "type": ["boolean", "null"]
             }
           },
           "additionalProperties": true
@@ -1357,10 +616,7 @@
                           ]
                         },
                         "user-id": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "expirience": {
                           "type": [
@@ -1418,10 +674,7 @@
                           ]
                         },
                         "is-native-lang": {
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
+                          "type": ["boolean", "null"]
                         },
                         "certificate": {
                           "type": [
@@ -1454,22 +707,13 @@
                           ]
                         },
                         "child-name": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
+                          "type": ["string", "null"]
                         },
                         "child-name-latin": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
+                          "type": ["string", "null"]
                         },
                         "child-age": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "student-age-from": {
                           "type": [
@@ -1502,28 +746,16 @@
                           ]
                         },
                         "price-1h-rub": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "price-30m-rub": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "old-price-1h-rub": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "old-price-30m-rub": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "currency": {
                           "type": [
@@ -1646,10 +878,7 @@
                           ]
                         },
                         "us-tax-residency": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "country-of-residency": {
                           "type": [
@@ -1672,10 +901,7 @@
                           ]
                         },
                         "tutor-type-wishes": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "tutor-id-wishes": {
                           "type": [
@@ -1708,28 +934,16 @@
                           ]
                         },
                         "is-loyal": {
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
+                          "type": ["boolean", "null"]
                         },
                         "penalty-percents": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "assessment": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "can-reschedule": {
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
+                          "type": ["boolean", "null"]
                         },
                         "can-auto-confirm": {
                           "type": [
@@ -1742,10 +956,7 @@
                           ]
                         },
                         "cnt-speaking-created-weekly": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "product-type": {
                           "type": [
@@ -1804,133 +1015,73 @@
                           "type": "object",
                           "properties": {
                             "who_user_is": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             },
                             "child_hobby": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             },
                             "is_studied_before": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             },
                             "goals": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             },
                             "speed": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             },
                             "lesson_format": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             },
                             "lessons_frequency": {
-                              "type": [
-                                "number",
-                                "null"
-                              ]
+                              "type": ["number", "null"]
                             },
                             "schedule_flexibility": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             },
                             "temperament": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             },
                             "speaking_club": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             },
                             "child_device": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             },
                             "home_work": {
-                              "type": [
-                                "string",
-                                "null"
-                              ]
+                              "type": ["string", "null"]
                             }
                           },
                           "additionalProperties": true
                         },
                         "can-save-min-working-hours": {
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
+                          "type": ["boolean", "null"]
                         },
                         "operating-timezone": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
+                          "type": ["string", "null"]
                         },
                         "operating-time": {
                           "type": "object",
                           "properties": {
                             "to": {
-                              "type": [
-                                "number",
-                                "null"
-                              ]
+                              "type": ["number", "null"]
                             },
                             "from": {
-                              "type": [
-                                "number",
-                                "null"
-                              ]
+                              "type": ["number", "null"]
                             }
                           },
                           "additionalProperties": true
                         },
                         "min-working-hours": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "max-working-hours": {
-                          "type": [
-                            "number",
-                            "null"
-                          ]
+                          "type": ["number", "null"]
                         },
                         "upsell-fifty-five-banner": {
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
+                          "type": ["boolean", "null"]
                         },
                         "upsell-fifty-five-modal": {
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
+                          "type": ["boolean", "null"]
                         },
                         "subscription-discount-at": {
                           "type": [
@@ -1963,25 +1114,16 @@
                           ]
                         },
                         "subject": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
+                          "type": ["string", "null"]
                         }
                       },
                       "additionalProperties": true
                     },
                     "type": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": ["string", "null"]
                     },
                     "id": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": ["string", "null"]
                     }
                   },
                   "additionalProperties": true
@@ -2027,23 +1169,13 @@
           "additionalProperties": true
         },
         "type": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         }
       },
       "additionalProperties": true,
-      "required": [
-        "id",
-        "attributes",
-        "relationships",
-        "type"
-      ]
+      "required": ["id", "attributes", "relationships", "type"]
     }
   },
   "additionalProperties": true,
-  "required": [
-    "data"
-  ]
+  "required": ["data"]
 }

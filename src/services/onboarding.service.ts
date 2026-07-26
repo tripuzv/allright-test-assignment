@@ -1,6 +1,4 @@
 import { BaseService } from "@services/base.service.ts";
-import { assertHelper } from "@helpers/asserts/assert.helper.ts";
-import { globalStore } from "@helpers/storage/global-data.storage.ts";
 import { LoggerHelper } from "@helpers/logger/logger.helper.ts";
 import { ScreenshotHelper } from "@helpers/screenshot/screenshot.helper.ts";
 import { step } from "@decorators/step.ts";
@@ -10,6 +8,7 @@ import { OnboardingPo } from "@pom/base/onboarding.po.ts";
 import { ApiNetworkInterceptor } from "@interceptors/api-network.interceptor.ts";
 import { OnboardingApiValidator } from "@validators/onboarding-api.validator.ts";
 import test from "@playwright/test";
+import { globalStore } from "@helpers/storage/global-data.storage.ts";
 
 export class OnboardingService extends BaseService {
   readonly logger = LoggerHelper.getInstance().getLogger();
@@ -28,48 +27,6 @@ export class OnboardingService extends BaseService {
     const pathname = new URL(this.page.url()).pathname;
     const segments = pathname.split("/").filter(Boolean);
     return segments.at(-1) ?? "";
-  }
-
-  async runPreOnboardingValidation(): Promise<boolean> {
-    const validationList = [];
-    return assertHelper.assertArrayResultsTrue(validationList);
-  }
-
-  async getPageObjectConfig(): Promise<{
-    pageObject: OnboardingPo;
-    screenValues: Record<string, any>;
-    analytics: Record<string, any>;
-    screenName: string;
-  }> {
-    const screenName = this.getCurrentScreenPartPath();
-    const config = templateMapper[screenName];
-
-    if (!config) {
-      throw new Error(`No page object mapped for screen: ${screenName}`);
-    }
-
-    const pageObject = new config.pageReference() as OnboardingPo;
-    pageObject.screenUrl = screenName;
-
-    return {
-      pageObject,
-      screenValues: config.screenValues,
-      analytics: config.analytics,
-      screenName,
-    };
-  }
-
-  async reportChosenObOptions(): Promise<void> {
-    const allObStorageData = globalStore.getAllData();
-    const obChosenOptions = {};
-
-    for (const data in allObStorageData) {
-      if (data.includes("chosenOption__")) {
-        const replacedChrosenOptions = data.replace("chosenOption__", "");
-        obChosenOptions[replacedChrosenOptions] =
-          allObStorageData[replacedChrosenOptions];
-      }
-    }
   }
 
   @step("Process Onboarding Flow")

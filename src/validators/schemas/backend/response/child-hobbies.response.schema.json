@@ -9,73 +9,43 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
           "id": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
           "attributes": {
             "type": "object",
             "properties": {
               "age-from": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "age-to": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "hobby": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": ["string", "null"]
               },
               "hobby-name": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": ["string", "null"]
               },
               "img": {
                 "type": "object",
                 "properties": {
                   "src": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": ["string", "null"]
                   },
                   "src2x": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
+                    "type": ["string", "null"]
                   }
                 },
                 "additionalProperties": true
               },
               "locales": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": ["string", "null"]
               },
               "special-course": {
-                "type": [
-                  "boolean",
-                  "null"
-                ]
+                "type": ["boolean", "null"]
               },
               "special-course-options": {
                 "type": [
@@ -96,7 +66,5 @@
     }
   },
   "additionalProperties": true,
-  "required": [
-    "data"
-  ]
+  "required": ["data"]
 }

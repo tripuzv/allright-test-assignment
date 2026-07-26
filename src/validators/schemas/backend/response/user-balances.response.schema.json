@@ -9,85 +9,46 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
           "id": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
           "attributes": {
             "type": "object",
             "properties": {
               "user-id": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "lesson-type-id": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "tutor-type-id": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "lessons-paid-finished": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "lessons-scheduled": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "lessons-available": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "lessons-paid": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "lessons-bonus": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "lessons-loan": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "lessons-transferred": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               },
               "lessons-transferred-plus": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               }
             },
             "additionalProperties": true
@@ -102,16 +63,10 @@
                     "type": "object",
                     "properties": {
                       "type": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                        "type": ["string", "null"]
                       },
                       "id": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                        "type": ["string", "null"]
                       }
                     },
                     "additionalProperties": true
@@ -126,16 +81,10 @@
                     "type": "object",
                     "properties": {
                       "type": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                        "type": ["string", "null"]
                       },
                       "id": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                        "type": ["string", "null"]
                       }
                     },
                     "additionalProperties": true
@@ -157,31 +106,19 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
           "id": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           },
           "attributes": {
             "type": "object",
             "properties": {
               "title": {
-                "type": [
-                  "string",
-                  "null"
-                ]
+                "type": ["string", "null"]
               },
               "duration": {
-                "type": [
-                  "number",
-                  "null"
-                ]
+                "type": ["number", "null"]
               }
             },
             "additionalProperties": true
@@ -192,8 +129,5 @@
     }
   },
   "additionalProperties": true,
-  "required": [
-    "data",
-    "included"
-  ]
+  "required": ["data", "included"]
 }

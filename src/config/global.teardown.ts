@@ -14,7 +14,9 @@ async function globalTeardown(): Promise<void> {
     try {
       await Reporter.generateAllureReport();
     } catch {
-      console.warn("[globalTeardown] - Allure report generation skipped/failed");
+      console.warn(
+        "[globalTeardown] - Allure report generation skipped/failed",
+      );
     }
     return;
   }

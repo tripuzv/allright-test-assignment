@@ -1,11 +1,3 @@
-export interface IAllureStatisticObject {
-  total: number;
-  passed: number;
-  failed: number;
-  other: number;
-  skipped: number;
-}
-
 export interface IAllureTime {
   start: number;
   stop: number;
@@ -22,13 +14,13 @@ export interface IAllureAttachment {
 
 export interface IAllureStep {
   name: string;
-  status: string; 
+  status: string;
   statusMessage?: string;
   statusTrace?: string;
   time: IAllureTime;
-  steps: IAllureStep[]; 
+  steps: IAllureStep[];
   attachments: IAllureAttachment[];
-  parameters: any[]; 
+  parameters: any[];
   shouldDisplayMessage?: boolean;
   stepsCount?: number;
   attachmentsCount?: number;
@@ -64,12 +56,12 @@ export interface IAllureTestResult {
   newPassed: boolean;
   retriesCount: number;
   retriesStatusChange: boolean;
-  beforeStages: any[]; 
+  beforeStages: any[];
   testStage: AllureTestStage;
-  afterStages: any[]; 
+  afterStages: any[];
   labels: { name: string; value: string }[];
   parameters: { name: string; value: string }[];
-  links: any[]; 
+  links: any[];
   hidden: boolean;
   retry: boolean;
   extra: {
@@ -78,7 +70,7 @@ export interface IAllureTestResult {
     categories?: { name: string; matchedStatuses: string[]; flaky: boolean }[];
     tags?: string[];
   };
-  source?: string; 
+  source?: string;
   parameterValues?: string[];
 }
 

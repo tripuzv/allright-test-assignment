@@ -62,9 +62,13 @@ export class OnboardingApiValidator {
       schemaName: "users-check-captcha",
     });
 
-    const create = await this.interceptor.waitFor("POST", /\/api\/v1\/users\/?$/, {
-      timeout: timeouts.m,
-    });
+    const create = await this.interceptor.waitFor(
+      "POST",
+      /\/api\/v1\/users\/?$/,
+      {
+        timeout: timeouts.m,
+      },
+    );
     await this.assertOk(create);
     await this.apiSchemaValidator.validate({
       body: create.requestBody,
@@ -211,9 +215,7 @@ export class OnboardingApiValidator {
 
       if (options.checkPhone && expectedPhone) {
         await assertHelper.expectEquals({
-          actual: extracted.phone
-            ? this.normalizePhone(extracted.phone)
-            : null,
+          actual: extracted.phone ? this.normalizePhone(extracted.phone) : null,
           expected: this.normalizePhone(expectedPhone),
           message: `${options.label} ${bodyKind}.phone must match phone from user-info-phone screen`,
         });

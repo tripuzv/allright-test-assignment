@@ -1,8 +1,5 @@
 node_modules/
 .idea/
-.gitlab/
-.husky/
 allure-results/
 allure-report/
-events/
-logs/
+artifacts/

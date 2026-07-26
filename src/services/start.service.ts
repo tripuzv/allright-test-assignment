@@ -33,9 +33,8 @@ export class StartService extends BaseService {
 
   @step("Store running experiment from localStorage")
   private async storeRunningExperiment(): Promise<void> {
-    const raw = await this.localStorageHelper.getLocalStorageDataByKey(
-      "experiments",
-    );
+    const raw =
+      await this.localStorageHelper.getLocalStorageDataByKey("experiments");
 
     if (!raw) {
       this.logger.warn("experiments key not found in localStorage");

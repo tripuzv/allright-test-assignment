@@ -31,7 +31,9 @@ export class TemperamentChildPo extends OnboardingPo {
 
     const randomIndex = mathHelper.random.getNumber(options.length);
     const option = options[randomIndex];
-    const text = ((await option.textContent()) || "").trim().replace(/\s+/g, " ");
+    const text = ((await option.textContent()) || "")
+      .trim()
+      .replace(/\s+/g, " ");
 
     await this.elementHelper.setChosenObOptions([text], this.stepName);
     await this.elementHelper.attachChosenObOptions([text], this.stepName);

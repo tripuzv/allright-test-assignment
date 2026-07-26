@@ -27,6 +27,7 @@ npm run allure_report
 ```
 
 **Locations**:
+
 - raw: `allure-results/`
 - HTML: `allure-report/`
 
@@ -52,10 +53,10 @@ When `GROUP_SCREENSHOTS=true`, screenshots are also collected into a single HTML
 
 On GitHub Actions the job prints CloudFront URLs for:
 
-| Report | S3 folder | Entry |
-|--------|-----------|--------|
-| Allure | `.../allure/{timestamp}/` | `index.html` |
-| Playwright | `.../trace/{timestamp}/` | `index.html` |
+| Report      | S3 folder                      | Entry                      |
+| ----------- | ------------------------------ | -------------------------- |
+| Allure      | `.../allure/{timestamp}/`      | `index.html`               |
+| Playwright  | `.../trace/{timestamp}/`       | `index.html`               |
 | Screenshots | `.../screenshots/{timestamp}/` | `grouped-screenshots.html` |
 
 Paths are also written to `artifacts/report-urls.txt`.
@@ -77,16 +78,20 @@ test-results/          # traces, failure dumps
 ## Troubleshooting
 
 ### Empty Allure report
+
 - Ensure the test run finished and wrote `allure-results/`
 - Re-run `npm run allure_report` (uses `--clean`)
 
 ### No Playwright report
+
 - Run tests once, then `npm run pw_report`
 - Check `playwright-report/` exists
 
 ### Missing screenshots
+
 - Confirm `artifacts/screenshots/` after a full smoke pass
 - Global setup prepares artifact directories on run start
 
 ### CI upload skipped
+
 - Set repo Variables `S3_BUCKET`, `S3_DOMAIN` and Secrets `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`

@@ -152,7 +152,7 @@ export class StatisticUtil {
           outputPath,
           JSON.stringify(fallback, null, 2),
         );
-      } catch { }
+      } catch {}
     }
   }
 }

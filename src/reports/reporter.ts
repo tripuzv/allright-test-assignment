@@ -3,8 +3,6 @@ import { ContentType } from "allure-js-commons";
 import { timeouts } from "@constants/timeouts.constants.ts";
 import { spawn } from "node:child_process";
 import { magicStrings } from "@data/magic-strings/magic.strings.ts";
-import { IAllureStatisticObject } from "@reports/types/allure-stat.types.ts";
-import { envHelper } from "@helpers/env/env.helper.ts";
 import { s3Helper } from "@helpers/s3/s3.helper.ts";
 import fs from "fs";
 import { StatisticUtil } from "@reports/stat.util.ts";
@@ -42,11 +40,6 @@ export class Reporter {
     });
   }
 
-  async attachObject(name: string, data: object): Promise<void> {
-    const jsonData = JSON.stringify(data, null, 2);
-    await this.attach(name, jsonData, ContentType.JSON);
-  }
-
   public static async generateAllureReport(): Promise<boolean> {
     if (!fs.existsSync(magicStrings.path.allureResults)) {
       console.warn(
@@ -78,7 +71,10 @@ export class Reporter {
           await StatisticUtil.prepareStatistics();
           return resolve(true);
         } catch (err) {
-          console.error("[Reporter] - Failed to prepare Allure statistics:", err);
+          console.error(
+            "[Reporter] - Failed to prepare Allure statistics:",
+            err,
+          );
           return resolve(true);
         }
       });
@@ -89,108 +85,6 @@ export class Reporter {
         reject(false);
       });
     });
-  }
-
-  public static async getStatisticsObject(): Promise<IAllureStatisticObject> {
-    const summaryFilePath = `${magicStrings.path.allureSummaryDir}/test_stat_summary.json`;
-
-    const summaryFileContent = fs.readFileSync(summaryFilePath, "utf-8");
-    const summary = JSON.parse(summaryFileContent);
-    const tests: any[] = Array.isArray(summary?.tests) ? summary.tests : [];
-
-    const stableParamKey = (
-      params?: Array<{ name: string; value: string }>,
-    ) => {
-      if (!params?.length) return "";
-      return params
-        .slice()
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map((p) => `${p.name}=${p.value}`)
-        .join("|");
-    };
-
-    const toMillis = (s?: string) => (s ? new Date(s).getTime() : 0);
-    const testKey = (t: any) => `${t.name}::${stableParamKey(t.parameters)}`;
-
-    const latestByKey = new Map<string, any>();
-    for (const t of tests) {
-      const key = testKey(t);
-      const prev = latestByKey.get(key);
-      const currStop = toMillis(t?.time?.stop) || toMillis(t?.time?.start) || 0;
-      const prevStop =
-        toMillis(prev?.time?.stop) || toMillis(prev?.time?.start) || 0;
-      if (!prev || currStop >= prevStop) {
-        latestByKey.set(key, t);
-      }
-    }
-
-    const result: IAllureStatisticObject = {
-      total: 0,
-      passed: 0,
-      failed: 0,
-      other: 0,
-      skipped: 0,
-    };
-
-    for (const t of latestByKey.values()) {
-      if (t?.testStage?.topLevelStepsStatistics) {
-        const stepStats = t.testStage.topLevelStepsStatistics;
-        result.total += stepStats.total || 0;
-        result.passed += stepStats.passed || 0;
-        result.failed += stepStats.failed || 0;
-        result.other += stepStats.other || 0;
-      } else {
-        // Fallback to test-level status if no step statistics available
-        const status = (t?.status || t?.testStage?.status || "").toLowerCase();
-        result.total += 1;
-
-        switch (status) {
-          case "passed":
-            result.passed += 1;
-            break;
-          case "failed":
-            result.failed += 1;
-            break;
-          case "skipped":
-            result.skipped += 1;
-            break;
-          case "broken":
-          case "unknown":
-          default:
-            result.other += 1;
-        }
-      }
-    }
-
-    return result;
-  }
-
-  public async generateExecutorInfo(): Promise<void> {
-    const executionInfoFilePath = `${magicStrings.path.allureResults}/executor.json`;
-
-    const buildNumber = process.env.CI_PIPELINE_ID || "0";
-    const jobName = process.env.CI_JOB_NAME || "unknown job";
-    const jobUrl = process.env.CI_JOB_URL || "";
-    const suite = process.env.SUITE_NAME;
-    const env = envHelper.environment;
-
-    const data = {
-      name: "gitlab",
-      type: "gitlab",
-      buildOrder: parseInt(buildNumber, 10),
-      buildName: `${jobName}#${buildNumber}`,
-      buildUrl: `${jobUrl}#${buildNumber}`,
-      reportName: `${suite} - ${env} Report`,
-      reportUrl: `https://${process.env.S3_BUCKET}/${env}/index.html`,
-    };
-
-    try {
-      fs.writeFileSync(executionInfoFilePath, JSON.stringify(data), "utf-8");
-    } catch (e) {
-      console.error(
-        `[Reporter] - Error during executor.json creation: ${e.message}`,
-      );
-    }
   }
 
   public static generateTraceBucketPath(): string {
@@ -286,7 +180,11 @@ export class Reporter {
       lines.push(`TRACE_BUCKET_PATH=${urls.traceBucketPath}`);
     }
     fs.mkdirSync("artifacts", { recursive: true });
-    fs.writeFileSync("artifacts/report-urls.txt", `${lines.join("\n")}\n`, "utf-8");
+    fs.writeFileSync(
+      "artifacts/report-urls.txt",
+      `${lines.join("\n")}\n`,
+      "utf-8",
+    );
   }
 
   public static printReportUrls(urls: {

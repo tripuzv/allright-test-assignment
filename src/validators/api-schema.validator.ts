@@ -19,39 +19,43 @@ export class ApiSchemaValidator {
   }
 
   async validate(args: {
-    body: any,
-    schemaType: "request" | "response",
-    apiType: "backend",
-    schemaName: string,
+    body: any;
+    schemaType: "request" | "response";
+    apiType: "backend";
+    schemaName: string;
   }): Promise<void> {
     await test.step(`Validate ${args.schemaType} schema for ${args.schemaName}`, async () => {
-    try {
-      const schemaPath = path.join(
-        __dirname,
-        "schemas",
-        `${args.apiType}/${args.schemaType}/${args.schemaName}.${args.schemaType}.schema.json`,
-      );
-      
-      this.logger.info(`${this.filePrefix} Validating ${args.schemaType} schema for: ${args.schemaName}`);
-      
-      const schema = JSON.parse(await fs.readFile(schemaPath, "utf-8"));
-      const validate = this.ajv.compile(schema);
+      try {
+        const schemaPath = path.join(
+          __dirname,
+          "schemas",
+          `${args.apiType}/${args.schemaType}/${args.schemaName}.${args.schemaType}.schema.json`,
+        );
 
-      const valid = validate(args.body);
+        this.logger.info(
+          `${this.filePrefix} Validating ${args.schemaType} schema for: ${args.schemaName}`,
+        );
 
-      if (!valid) {
-        const errorMessage = `Schema validation failed for ${args.schemaName}: ${JSON.stringify(validate.errors, null, 2)}`;
+        const schema = JSON.parse(await fs.readFile(schemaPath, "utf-8"));
+        const validate = this.ajv.compile(schema);
+
+        const valid = validate(args.body);
+
+        if (!valid) {
+          const errorMessage = `Schema validation failed for ${args.schemaName}: ${JSON.stringify(validate.errors, null, 2)}`;
+          this.logger.error(`${this.filePrefix} ${errorMessage}`);
+          expect.soft(valid, errorMessage).toBe(true);
+          return;
+        }
+
+        this.logger.info(
+          `${this.filePrefix} ${args.schemaType} schema validation passed for: ${args.schemaName}`,
+        );
+      } catch (err) {
+        const errorMessage = `Failed to validate api schema for ${args.schemaName}: ${err}`;
         this.logger.error(`${this.filePrefix} ${errorMessage}`);
-        expect.soft(valid, errorMessage).toBe(true);
-        return;
+        expect.soft(false, errorMessage).toBe(true);
       }
-
-      this.logger.info(`${this.filePrefix} ${args.schemaType} schema validation passed for: ${args.schemaName}`);
-    } catch (err) {
-      const errorMessage = `Failed to validate api schema for ${args.schemaName}: ${err}`;
-      this.logger.error(`${this.filePrefix} ${errorMessage}`);
-      expect.soft(false, errorMessage).toBe(true);
-    }
     });
   }
 }

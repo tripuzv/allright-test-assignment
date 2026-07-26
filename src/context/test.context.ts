@@ -1,4 +1,3 @@
-// test.context.ts
 import { Page, TestInfo } from "@playwright/test";
 import { Reporter } from "@reports/reporter.ts";
 
@@ -10,7 +9,6 @@ class TestContext {
 
   private constructor() {}
 
-  // Singleton instance getter
   static getInstance(): TestContext {
     if (!TestContext.instance) {
       TestContext.instance = new TestContext();
@@ -18,7 +16,6 @@ class TestContext {
     return TestContext.instance;
   }
 
-  // Getter and setter for page
   get page(): Page | undefined {
     return this._page;
   }
@@ -27,7 +24,6 @@ class TestContext {
     this._page = page;
   }
 
-  // Getter and setter for testInfo
   get testInfo(): TestInfo | undefined {
     return this._testInfo;
   }

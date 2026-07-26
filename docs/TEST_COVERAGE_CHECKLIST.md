@@ -1,6 +1,6 @@
 # All Right — Test Coverage Checklist
 
-*Last updated: 26 July 2026*
+_Last updated: 26 July 2026_
 
 Scope of this assignment: **Charlie long sign-up funnel** smoke E2E on stage/prod.
 
@@ -46,11 +46,11 @@ Per screen: screenshot, `test.step(\`Process ${screen} screen\`)`, wait for rout
 
 Captured under `/api/v1` (excluding `tutor-urls` / `experiments`):
 
-| After screen | APIs | Schemas |
-|--------------|------|---------|
-| `child-hobby` | `GET /child-hobbies` | response |
+| After screen      | APIs                                                                                    | Schemas                           |
+| ----------------- | --------------------------------------------------------------------------------------- | --------------------------------- |
+| `child-hobby`     | `GET /child-hobbies`                                                                    | response                          |
 | `user-info-phone` | `GET /users/check-captcha`, `POST /users`, `GET /users`, `GET /users/:id/user-balances` | request/response where applicable |
-| `user-info-email` | `PATCH /users/:id/update-email`, `PATCH /users/:id` | request + response |
+| `user-info-email` | `PATCH /users/:id/update-email`, `PATCH /users/:id`                                     | request + response                |
 
 Ajv JSON Schema (`src/validators/schemas/backend/`).
 

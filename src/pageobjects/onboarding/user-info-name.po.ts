@@ -33,7 +33,9 @@ export class UserInfoNamePo extends OnboardingPo {
   }
 
   get whoFillsModalTitle(): Locator {
-    return this.whoFillsModal.locator(".ui-modal__body .text-h2, .ui-modal__body p").first();
+    return this.whoFillsModal
+      .locator(".ui-modal__body .text-h2, .ui-modal__body p")
+      .first();
   }
 
   get whoFillsChildButton(): Locator {

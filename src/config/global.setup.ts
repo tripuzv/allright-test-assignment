@@ -20,7 +20,7 @@ async function cleanDirectoriesBeforeRun(): Promise<void> {
 
   directories.forEach((dir) => {
     if (fs.existsSync(dir)) {
-      console.log(`🗑️ Clearing ${dir} ...`);
+      console.log(`Clearing ${dir} ...`);
       fs.rmSync(dir, { recursive: true });
     }
   });
@@ -35,7 +35,7 @@ async function prepareDirectoriesBeforeRun(): Promise<void> {
   directories.forEach((dir) => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
-      console.log(`✅  ${dir} is ready for new test run.`);
+      console.log(`${dir} is ready for new test run.`);
     }
   });
 }

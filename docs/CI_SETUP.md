@@ -6,35 +6,35 @@ Smoke E2E via **GitHub Actions** (`workflow_dispatch`). After the run, Allure / 
 
 File: [`.github/workflows/playwright-smoke.yml`](../.github/workflows/playwright-smoke.yml)
 
-| | |
-|--|--|
-| Trigger | Actions → **Playwright Smoke** → **Run workflow** |
-| Image | `mcr.microsoft.com/playwright:v1.61.0-noble` |
-| Command | `npx playwright test --project=smoke` |
-| S3 path | `s3://{S3_BUCKET}/web/{SERVER}/smoke/{allure\|trace\|screenshots}/{timestamp}/` |
-| Artifacts | also kept on the Actions run (7 days) |
+|           |                                                                                 |
+| --------- | ------------------------------------------------------------------------------- |
+| Trigger   | Actions → **Playwright Smoke** → **Run workflow**                               |
+| Image     | `mcr.microsoft.com/playwright:v1.61.0-noble`                                    |
+| Command   | `npx playwright test --project=smoke`                                           |
+| S3 path   | `s3://{S3_BUCKET}/web/{SERVER}/smoke/{allure\|trace\|screenshots}/{timestamp}/` |
+| Artifacts | also kept on the Actions run (7 days)                                           |
 
 ## Inputs
 
-| Input | Options | Env var | Default |
-|-------|---------|---------|---------|
-| `server` | `stage`, `prod` | `SERVER` | `stage` |
-| `browserName` | `webkit`, `chromium` | `BROWSER_NAME` | `webkit` |
-| `deviceType` | `Ios`, `Android` | `DEVICE_TYPE` | `Ios` |
-| `whoFillsForm` | `child`, `parent` | `WHO_FILLS_FORM` | `child` |
-| `groupScreenshots` | boolean | `GROUP_SCREENSHOTS` | `true` |
+| Input              | Options              | Env var             | Default  |
+| ------------------ | -------------------- | ------------------- | -------- |
+| `server`           | `stage`, `prod`      | `SERVER`            | `stage`  |
+| `browserName`      | `webkit`, `chromium` | `BROWSER_NAME`      | `webkit` |
+| `deviceType`       | `Ios`, `Android`     | `DEVICE_TYPE`       | `Ios`    |
+| `whoFillsForm`     | `child`, `parent`    | `WHO_FILLS_FORM`    | `child`  |
+| `groupScreenshots` | boolean              | `GROUP_SCREENSHOTS` | `true`   |
 
 Also set: `IS_CI=true`, `HEADLESS=true`, `SUITE=smoke`.
 
 ## GitHub Secrets / Variables
 
-| Name | Where | Purpose |
-|------|--------|---------|
-| `AWS_ACCESS_KEY_ID` | Secret | IAM upload user |
-| `AWS_SECRET_ACCESS_KEY` | Secret | IAM upload user |
-| `S3_BUCKET` | Variable | Bucket name only |
-| `S3_DOMAIN` | Variable | `https://dxxxx.cloudfront.net` |
-| `AWS_DEFAULT_REGION` | Variable (optional) | default `us-east-1` |
+| Name                    | Where               | Purpose                        |
+| ----------------------- | ------------------- | ------------------------------ |
+| `AWS_ACCESS_KEY_ID`     | Secret              | IAM upload user                |
+| `AWS_SECRET_ACCESS_KEY` | Secret              | IAM upload user                |
+| `S3_BUCKET`             | Variable            | Bucket name only               |
+| `S3_DOMAIN`             | Variable            | `https://dxxxx.cloudfront.net` |
+| `AWS_DEFAULT_REGION`    | Variable (optional) | default `us-east-1`            |
 
 AWS console setup: **[AWS S3 + CloudFront](./AWS_S3_CLOUDFRONT_SETUP.md)**
 

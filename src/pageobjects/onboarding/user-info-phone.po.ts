@@ -45,7 +45,10 @@ export class UserInfoPhonePo extends OnboardingPo {
       .poll(async () => (await this.phoneInput.inputValue()).replace(/\D/g, ""))
       .toMatch(new RegExp(`^(${national}|${e164Digits})$`));
 
-    const enteredValue = (await this.phoneInput.inputValue()).replace(/\s+/g, "");
+    const enteredValue = (await this.phoneInput.inputValue()).replace(
+      /\s+/g,
+      "",
+    );
     this.logger.info(
       `${this.stepName}: country=${countryName}, e164=${e164}, national=${national}, entered=${enteredValue}`,
     );

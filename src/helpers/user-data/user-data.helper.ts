@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker";
-import { envHelper } from "@helpers/env/env.helper.ts";
 import { parsePhoneNumber } from "libphonenumber-js";
 import {
   CountryNames,
@@ -15,17 +14,11 @@ export type GeneratedPhone = {
 };
 
 export const userDataHelper = {
-  server: envHelper.environment,
   emailPrefix: "aqa-test-",
   emailEnding: "@test.mail",
-  defaultPassword: "Password123!",
 
   generateEmail(): string {
     return `${this.emailPrefix}${Math.random().toString(36).substring(2, 15)}${this.emailEnding}`;
-  },
-
-  getDefaultPassword(): string {
-    return this.defaultPassword;
   },
 
   generateValidPhone(countryName: CountryName): GeneratedPhone {
@@ -50,18 +43,6 @@ export const userDataHelper = {
   getRandom: {
     firstName(): string {
       return faker.person.firstName();
-    },
-    lastName(): string {
-      return faker.person.lastName();
-    },
-    phoneNumber(countryName?: CountryName): string {
-      if (countryName) {
-        return userDataHelper.generateValidPhone(countryName).e164;
-      }
-      return faker.phone.number({ style: "international" });
-    },
-    zipCode(): string {
-      return faker.location.zipCode();
     },
   },
 };

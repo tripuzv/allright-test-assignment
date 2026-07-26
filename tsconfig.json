@@ -24,19 +24,12 @@
       "@data/*": ["./src/data/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@constants/*": ["./src/constants/*"],
-      "@builders/*": ["./src/builders/*"],
       "@context/*": ["./src/context/*"],
       "@decorators/*": ["./src/decorators/*"],
-      "@storage/*": ["./src/storage/*"],
       "@reports/*": ["./src/reports/*"],
       "@services/*": ["./src/services/*"],
       "@pom/*": ["./src/pageobjects/*"],
-      "@templates/*": ["./src/pageobjects/templates/*"],
-      "@types/*": ["./src/types/*"],
       "@validators/*": ["./src/validators/*"]
     }
-  },
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
   }
 }

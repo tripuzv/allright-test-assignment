@@ -1,20 +1,18 @@
-#IDE files
+# IDE
 .idea/
 .DS_Store
-#Node modules
+
+# Dependencies
 node_modules/
-package-lock.json
-#Test results
+
+# Test / report outputs
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-#Allure reports
 /allure-results/
 /allure-report/
-# Test artifacts
-artifacts
-#Temp test spec file
-/tests/temp/tmp.spec.ts
-#Environment variables
+artifacts/
+
+# Env
 .env

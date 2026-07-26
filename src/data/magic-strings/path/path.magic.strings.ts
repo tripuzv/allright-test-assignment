@@ -6,14 +6,8 @@ export const pathMagicStrings = {
   get artifacts(): string {
     return `${this.root}/artifacts`;
   },
-  get funnelData(): string {
-    return `${this.artifacts}/funnelData`;
-  },
   get screenshots(): string {
     return `${this.artifacts}/screenshots`;
-  },
-  get requests(): string {
-    return `${this.artifacts}/requests`;
   },
   get logs(): string {
     return `${this.artifacts}/logs`;
@@ -34,9 +28,6 @@ export const pathMagicStrings = {
     }
     const files = fs.readdirSync(dirPath).filter((f) => f.endsWith(".json"));
     return files.map((f) => path.join(dirPath, f));
-  },
-  get allureSummaryDir() {
-    return `${this.artifacts}/summary`;
   },
   get allureSummaryPath() {
     return `${this.artifacts}/summary`;
