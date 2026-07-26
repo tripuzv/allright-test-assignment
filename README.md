@@ -15,7 +15,7 @@ Playwright + TypeScript E2E framework for the All Right sign-up funnel (`stage.a
 - **[Project Structure](./docs/PROJECT_STRUCTURE.md)** — directories and architecture
 - **[Test Coverage](./docs/TEST_COVERAGE_CHECKLIST.md)** — what the smoke flow covers
 - **[Reports Guide](./docs/REPORTS.md)** — local reports and artifacts
-- **[CI notes](./docs/CI_SETUP.md)** — CI status for this assignment
+- **[CI Setup](./docs/CI_SETUP.md)** — GitHub Actions smoke workflow
 
 ## Quick start
 

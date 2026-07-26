@@ -71,7 +71,7 @@ Against values stored on screens in `globalStore`:
 - [ ] Amplitude / Reteno analytics validation
 - [ ] Registration cabinet / change-password
 - [ ] Monetization suite
-- [ ] GitLab CI + S3 report hosting
+- [x] GitHub Actions smoke workflow (no S3 upload yet)
 
 ---
 
