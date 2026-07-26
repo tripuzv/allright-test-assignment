@@ -71,7 +71,7 @@ export class ScreenshotHelper extends BaseHelper {
       const screenshotFiles = files
         .filter((file) => file.endsWith(".png") && !file.includes("grouped-screenshots"))
         .map((file) => {
-          const match = file.match(/^(\d{2}:\d{2}:\d{2})__/);
+          const match = file.match(/^(\d{2}[:\-]\d{2}[:\-]\d{2})__/);
           return match ? file : null;
         })
         .filter(Boolean) as string[];

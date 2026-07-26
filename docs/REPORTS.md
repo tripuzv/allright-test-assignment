@@ -38,7 +38,7 @@ Captured per onboarding screen during the funnel.
 
 **Location**: `artifacts/screenshots/`
 
-Naming pattern: `<time>__<screen-name>__<WxH>.png`
+Naming pattern: `<HH-MM-SS>__<screen-name>__<WxH>.png`
 
 ### Grouped screenshots
 
