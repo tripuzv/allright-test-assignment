@@ -1,0 +1,7 @@
+export enum EnvVariable {
+  SERVER = "SERVER",
+  IS_CI = "IS_CI",
+  LOG_LEVEL = "LOG_LEVEL",
+  GROUP_SCREENSHOTS = "GROUP_SCREENSHOTS",
+  BROWSER_NAME = "BROWSER_NAME",
+}

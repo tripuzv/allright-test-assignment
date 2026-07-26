@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "esnext",
+    "types": ["node", "playwright"],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "useUnknownInCatchVariables": false,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "ignoreDeprecations": "5.0",
+    "paths": {
+      "@interceptors/*": ["./src/interceptors/*"],
+      "@data/*": ["./src/data/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@builders/*": ["./src/builders/*"],
+      "@context/*": ["./src/context/*"],
+      "@decorators/*": ["./src/decorators/*"],
+      "@storage/*": ["./src/storage/*"],
+      "@reports/*": ["./src/reports/*"],
+      "@services/*": ["./src/services/*"],
+      "@pom/*": ["./src/pageobjects/*"],
+      "@templates/*": ["./src/pageobjects/templates/*"],
+      "@types/*": ["./src/types/*"],
+      "@validators/*": ["./src/validators/*"]
+    }
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
+}
