@@ -5,10 +5,10 @@ import {
   IGetElement,
   IGetRandomElements,
   IWaitForOptions,
-} from "./types/types";
+} from "./types/element.types";
 import { BaseHelper } from "@helpers/base/base.helper.ts";
 import { mathHelper } from "@helpers/math/math.helper.ts";
-import { globalStore } from "@storage/globalDataStorage.ts";
+import { globalStore } from "@helpers/storage/global-data.storage.ts";
 import { ContentType } from "allure-js-commons";
 
 export class ElementHelper extends BaseHelper {

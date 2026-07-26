@@ -1,4 +1,4 @@
-import { Nullable } from "../types/global.types.ts";
+import { Nullable } from "../../types/global.types.ts";
 
 class GlobalDataStorage {
   private static instance: GlobalDataStorage;

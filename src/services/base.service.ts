@@ -1,9 +1,9 @@
 import { LoggerHelper } from "@helpers/logger/logger.helper.ts";
 import { Page } from "@playwright/test";
 
-import { LocalStorageHelper } from "@helpers/storage/localstorage.helper.ts";
+import { LocalStorageHelper } from "@helpers/storage/local-storage.helper.ts";
 import { Reporter } from "@reports/reporter.ts";
-import { useTestContext } from "@context/useTestContext.ts";
+import { useTestContext } from "@context/use.test.context.ts";
 
 export class BaseService {
   protected logger = LoggerHelper.getInstance().getLogger();

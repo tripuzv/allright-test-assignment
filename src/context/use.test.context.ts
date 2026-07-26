@@ -1,4 +1,4 @@
-import TestContext from "./testContext";
+import TestContext from "./test.context";
 import { Page, TestInfo } from "@playwright/test";
 import { Reporter } from "@reports/reporter.ts";
 

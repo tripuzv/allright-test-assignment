@@ -3,7 +3,7 @@ import {
   ISleepArgs,
   IWaitOptions,
 } from "@helpers/waiters/types/waiters.types.ts";
-import { utils } from "@helpers/waiters/utils/waiterUtils.ts";
+import { utils } from "@helpers/waiters/utils/waiter.utils.ts";
 import { timeouts } from "@constants/timeouts.constants.ts";
 import { BaseHelper } from "@helpers/base/base.helper.ts";
 import { BrowserContext } from "playwright";

@@ -4,8 +4,8 @@ import {
   IStepStatistics,
   ITestCaseStatisticsReport,
   ProcessedStepInfo,
-} from "@reports/types/allure-stat-types.ts";
-import { magicStrings } from "@data/magic-strings/magicStrings.ts";
+} from "@reports/types/allure-stat.types.ts";
+import { magicStrings } from "@data/magic-strings/magic.strings.ts";
 import path from "path";
 import fsPromises from "fs/promises";
 
@@ -66,6 +66,13 @@ export class StatisticUtil {
 
     try {
       await fsPromises.mkdir(outputDir, { recursive: true });
+
+      if (!testCaseFilePaths.length) {
+        console.warn(
+          "[StatisticUtil] - No Allure test-case files found, skipping statistics",
+        );
+        return;
+      }
 
       const results: Partial<ITestCaseStatisticsReport>[] = [];
       const summary = {

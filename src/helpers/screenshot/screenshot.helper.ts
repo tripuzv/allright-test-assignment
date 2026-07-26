@@ -1,11 +1,11 @@
 import { promises as fs } from "fs";
 import path from "path";
 import sharp from "sharp";
-import {ICaptureScreenshotArgs} from "@helpers/screenshot/types/screenshots.types.ts";
+import {ICaptureScreenshotArgs} from "@helpers/screenshot/types/screenshot.types.ts";
 import { BaseHelper } from "@helpers/base/base.helper.ts";
-import { magicStrings } from "@data/magic-strings/magicStrings.ts";
+import { magicStrings } from "@data/magic-strings/magic.strings.ts";
 import { dateHelper } from "@helpers/date/date.helper.ts";
-import { getScreenshotHtmlTemplate } from "@helpers/screenshot/screenshot-html.template.ts";
+import { getScreenshotHtmlTemplate } from "@helpers/screenshot/screenshot.html.template.ts";
 
 export class ScreenshotHelper extends BaseHelper {
   private screenshotDir: string = magicStrings.path.screenshots;

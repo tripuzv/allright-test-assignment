@@ -1,9 +1,20 @@
-# Playwright
+#IDE files
+.idea/
+.DS_Store
+#Node modules
 node_modules/
+package-lock.json
+#Test results
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/playwright/.auth/
-# Environment variables
+#Allure reports
+/allure-results/
+/allure-report/
+# Test artifacts
+artifacts
+#Temp test spec file
+/tests/temp/tmp.spec.ts
+#Environment variables
 .env

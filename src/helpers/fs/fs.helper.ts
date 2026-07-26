@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { PathOrFileDescriptor } from "fs";
-import { FileExtension, ISaveFileArgs } from "@helpers/fs/fs-helper.types.ts";
-import { formatHelper } from "@helpers/formatter/formatHelper.ts";
+import { FileExtension, ISaveFileArgs } from "@helpers/fs/fs.types.ts";
+import { formatHelper } from "@helpers/formatter/format.helper.ts";
 import { LoggerHelper } from "@helpers/logger/logger.helper.ts";
 import { Logger } from "log4js";
 

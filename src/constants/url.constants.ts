@@ -1,4 +1,4 @@
 export const urlConstants = {
-  stage: "https://frontend01-dev.finestro.io",
-  prod: "https://finestro.io",
+  stage: "https://stage.allright.com",
+  prod: "https://allright.com",
 };

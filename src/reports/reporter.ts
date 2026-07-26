@@ -2,23 +2,18 @@ import { TestInfo } from "@playwright/test";
 import { ContentType } from "allure-js-commons";
 import { timeouts } from "@constants/timeouts.constants.ts";
 import { spawn } from "node:child_process";
-import { magicStrings } from "@data/magic-strings/magicStrings.ts";
-import { IAllureStatisticObject } from "@reports/types/allure-stat-types.ts";
-import { envHelper } from "@helpers/env/envHelper.ts";
-import { SlackHelper } from "@helpers/slack/slack.helper.ts";
-import { s3Helper } from "@helpers/s3/s3.helper.ts";
-import { formatHelper } from "@helpers/formatter/formatHelper.ts";
+import { magicStrings } from "@data/magic-strings/magic.strings.ts";
+import { IAllureStatisticObject } from "@reports/types/allure-stat.types.ts";
+import { envHelper } from "@helpers/env/env.helper.ts";
 import fs from "fs";
 import { StatisticUtil } from "@reports/stat.util.ts";
 
 export class Reporter {
   private static instance: Reporter;
   private testInfo: TestInfo;
-  public slackHelper: SlackHelper;
 
   private constructor(testInfo: TestInfo) {
     this.testInfo = testInfo;
-    this.slackHelper = new SlackHelper();
   }
 
   public static getInstance(testInfo?: TestInfo): Reporter {
@@ -52,6 +47,13 @@ export class Reporter {
   }
 
   public static async generateAllureReport(): Promise<boolean> {
+    if (!fs.existsSync(magicStrings.path.allureResults)) {
+      console.warn(
+        "[Reporter] - allure-results does not exist, skipping Allure report generation",
+      );
+      return false;
+    }
+
     return new Promise<boolean>((resolve, reject) => {
       const generation = spawn(
         "npx",
@@ -66,13 +68,18 @@ export class Reporter {
         return reject(false);
       }, timeouts.xl);
 
-      generation.on("exit", (exitCode: number) => {
+      generation.on("exit", async (exitCode: number) => {
         clearTimeout(generationTimeout);
         if (exitCode !== 0) {
           return reject(false);
         }
-        StatisticUtil.prepareStatistics();
-        return resolve(true);
+        try {
+          await StatisticUtil.prepareStatistics();
+          return resolve(true);
+        } catch (err) {
+          console.error("[Reporter] - Failed to prepare Allure statistics:", err);
+          return resolve(true);
+        }
       });
 
       generation.on("error", (err) => {
@@ -185,14 +192,6 @@ export class Reporter {
     }
   }
 
-  public static generateTraceBucketPath(): string {
-    return s3Helper.buildBucketPath("trace");
-  }
-
-  public static generateScreenshotBucketPath(): string {
-    return s3Helper.buildBucketPath("screenshots");
-  }
-
   public static async uploadScreenshotReport(): Promise<string | undefined> {
     const screenshotHtmlPath = "artifacts/grouped-screenshots.html";
 
@@ -203,8 +202,6 @@ export class Reporter {
       return undefined;
     }
 
-    const bucketPath = Reporter.generateScreenshotBucketPath();
-
     try {
       const tempDir = "artifacts/screenshots-temp";
       if (!fs.existsSync(tempDir)) {
@@ -213,50 +210,15 @@ export class Reporter {
       const tempFilePath = `${tempDir}/grouped-screenshots.html`;
       fs.copyFileSync(screenshotHtmlPath, tempFilePath);
 
-      await s3Helper.syncFolderWithBucket(`${tempDir}/`, bucketPath);
-
       fs.unlinkSync(tempFilePath);
       fs.rmdirSync(tempDir);
 
-      return bucketPath;
+      return undefined;
     } catch (error) {
       console.error(
         `[Reporter] - Failed to upload screenshot report: ${error}`,
       );
       return undefined;
     }
-  }
-
-  public static async handleAllureReport(
-    traceHtmlUrl?: string,
-    screenshotHtmlUrl?: string,
-  ): Promise<string> {
-    await Reporter.generateAllureReport();
-    const bucketPath = s3Helper.buildBucketPath("allure");
-    await s3Helper.syncFolderWithBucket("allure-report/", bucketPath);
-    const statistic = await Reporter.getStatisticsObject();
-
-    const reporterInstance = Reporter.getInstance();
-    await reporterInstance.slackHelper.sendResults({
-      statistic,
-      bucketPath,
-      traceBucketPath: traceHtmlUrl,
-      screenshotBucketPath: screenshotHtmlUrl,
-    });
-    return bucketPath;
-  }
-
-  public static async printReportUrl(bucketPath = ""): Promise<void> {
-    console.debug("=".repeat(55));
-    console.debug(
-      formatHelper.json.stringify({
-        value: {
-          report: bucketPath
-            ? `https://${bucketPath}/index.html`
-            : `Can be opened locally via allure-report/index.html`,
-        },
-      }),
-    );
-    console.debug("=".repeat(55));
   }
 }

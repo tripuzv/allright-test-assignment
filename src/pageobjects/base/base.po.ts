@@ -1,10 +1,10 @@
 import { Locator, Page } from "@playwright/test";
 import { Reporter } from "@reports/reporter.ts";
-import { useTestContext } from "@context/useTestContext.ts";
+import { useTestContext } from "@context/use.test.context.ts";
 import { Logger } from "log4js";
 import { LoggerHelper } from "@helpers/logger/logger.helper.ts";
-import { ElementHelper } from "@helpers/elements/elementHelper.ts";
-import { ScreenshotHelper } from "@helpers/screenshot/screenshots.helper.ts";
+import { ElementHelper } from "@helpers/elements/element.helper.ts";
+import { ScreenshotHelper } from "@helpers/screenshot/screenshot.helper.ts";
 import { WaitersHelper } from "@helpers/waiters/waiters.helper.ts";
 
 export class BasePo {

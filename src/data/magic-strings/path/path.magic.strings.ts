@@ -29,10 +29,10 @@ export const pathMagicStrings = {
   },
   get allureTestCases() {
     const dirPath = this.allureTestCasesDir;
-    const files = fs.readdirSync(dirPath);
-    if (!files.length) {
-      throw new Error("No test case files found");
+    if (!fs.existsSync(dirPath)) {
+      return [];
     }
+    const files = fs.readdirSync(dirPath).filter((f) => f.endsWith(".json"));
     return files.map((f) => path.join(dirPath, f));
   },
   get allureSummaryDir() {

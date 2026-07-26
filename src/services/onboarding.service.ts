@@ -1,42 +1,55 @@
 import { BaseService } from "@services/base.service.ts";
 import { assertHelper } from "@helpers/asserts/assert.helper.ts";
-import { globalStore } from "@storage/globalDataStorage.ts";
+import { globalStore } from "@helpers/storage/global-data.storage.ts";
 import { LoggerHelper } from "@helpers/logger/logger.helper.ts";
-import { ScreenshotHelper } from "@helpers/screenshot/screenshots.helper.ts";
+import { ScreenshotHelper } from "@helpers/screenshot/screenshot.helper.ts";
 import { step } from "@decorators/step.ts";
-import { FunnelHelper } from "@helpers/funnel/funnel.helper";
-import { FunnelPage } from "@helpers/funnel/types/funnel.types";
-import { templateMapper } from "@data/ob.template.mapper";
-import { templateMapper as paymentTemplateMapper } from "@data/payment.template.mapper";
+import { templateMapper } from "@data/templates/onboarding.template.mapper.ts";
 import { timeouts } from "@constants/timeouts.constants";
-import test from "@playwright/test";
-import { AmplitudeValidator } from "../validators/amplitude/amplitude.validator.ts";
+import { OnboardingPo } from "@pom/base/onboarding.po.ts";
 
 export class OnboardingService extends BaseService {
   readonly logger = LoggerHelper.getInstance().getLogger();
   private screenShotHelper: ScreenshotHelper;
-  private funnelHelper: FunnelHelper;
-  private amplitudeValidator: AmplitudeValidator;
 
   constructor() {
     super();
     this.screenShotHelper = new ScreenshotHelper();
-    this.funnelHelper = new FunnelHelper();
-    this.amplitudeValidator = new AmplitudeValidator();
+  }
+
+  private getCurrentScreenPartPath(): string {
+    const pathname = new URL(this.page.url()).pathname;
+    const segments = pathname.split("/").filter(Boolean);
+    return segments.at(-1) ?? "";
   }
 
   async runPreOnboardingValidation(): Promise<boolean> {
-    const validationList = [
-    ];
+    const validationList = [];
     return assertHelper.assertArrayResultsTrue(validationList);
   }
 
   async getPageObjectConfig(): Promise<{
-    pageObject: any;
-    screenValues: any;
-    analytics: any;
+    pageObject: OnboardingPo;
+    screenValues: Record<string, any>;
+    analytics: Record<string, any>;
+    screenName: string;
   }> {
-    throw new Error("getPageObjectConfig is not available");
+    const screenName = this.getCurrentScreenPartPath();
+    const config = templateMapper[screenName];
+
+    if (!config) {
+      throw new Error(`No page object mapped for screen: ${screenName}`);
+    }
+
+    const pageObject = new config.pageReference() as OnboardingPo;
+    pageObject.screenUrl = screenName;
+
+    return {
+      pageObject,
+      screenValues: config.screenValues,
+      analytics: config.analytics,
+      screenName,
+    };
   }
 
   async reportChosenObOptions(): Promise<void> {
@@ -54,73 +67,29 @@ export class OnboardingService extends BaseService {
 
   @step("Process Onboarding Flow")
   async passObFunnel(): Promise<void> {
-    const funnelData = await this.funnelHelper.getFunnelData();
+    while (true) {
+      const screenName = this.getCurrentScreenPartPath();
+      const config = templateMapper[screenName];
 
-    const firstPaymentScreenIndex =
-      this.getFirstMonetizationScreenIndex(funnelData.funnel);
-
-    const lastObScreenIndex =
-      firstPaymentScreenIndex === -1
-        ? funnelData.funnel.length
-        : firstPaymentScreenIndex;
-
-    this.logger.info(
-      `Processing ${lastObScreenIndex} onboarding screens (monetization segment starts at funnel index ${firstPaymentScreenIndex}; boundary = route "payment" or template key from payment.template.mapper)`,
-    );
-    this.validateFunnelTemplates(funnelData.funnel, firstPaymentScreenIndex);
-    await this.validateInitialEventsForOnboarding();
-    for (let index = 0; index < lastObScreenIndex; index++) {
-      const funnelPage = funnelData.funnel[index];
-      const templateName = (funnelPage.template || funnelPage.baseScreen?.template) as keyof typeof templateMapper;
-      const screenRoute = funnelPage.route;
-      const pageObject = templateMapper[templateName];
-      await test.step(`Process ${screenRoute} screen`, async () => {
-        const skipPage = await this.funnelHelper.shouldSkipOnboardingPage(funnelPage);
-        if (skipPage) {
-          this.logger.info(
-            `Skipping onboarding page ${index + 1}/${lastObScreenIndex}: ${funnelPage.route} (skipPageSettings conditions met, data from URL)`,
-          );
-          const isLastObScreen = index === lastObScreenIndex - 1;
-          if (!isLastObScreen) {
-            await this.waitUntilOnboardingScreenChanges(screenRoute);
-          }
-          return;
-        }
-
-        if (!pageObject) {
-          this.logger.warn(
-            `Template "${templateName}" not found in templateMapper for route "${funnelPage.route}"`,
-          );
-          throw new Error(`Template "${templateName}" not found in templateMapper for route "${funnelPage.route}"`);
-        }
-
+      if (!config) {
         this.logger.info(
-          `Processing onboarding page ${index + 1}/${lastObScreenIndex}: ${funnelPage.route} (${funnelPage.analyticRoute}) with template: ${templateName}`,
+          `No mapper entry for screen "${screenName}", stopping onboarding funnel`,
         );
+        break;
+      }
 
-        const pageObjectInstance = new pageObject.pageReference();
-        const screenshotName = screenRoute === "/" ? "firstObScreen" : `onboarding_${screenRoute}`;
-        await this.screenShotHelper.capture({ name: screenshotName });
-        // @ts-ignore
-        await pageObjectInstance?.processScreen(funnelPage);
+      globalStore.set("currentScreen", screenName);
+      this.logger.info(`Processing onboarding screen: ${screenName}`);
 
-        if (index === 0) {
-          await this.amplitudeValidator.validateEventType({
-            notDefaultEventType: "Onboarding_started",
-          });
-        }
+      await this.screenShotHelper.capture({ name: screenName });
 
-        await this.amplitudeValidator.validateEventType({
-          screenRoute: funnelPage.analyticRoute,
-          eventType: "_screen_load",
-        });
+      const pageObject = new config.pageReference() as OnboardingPo;
+      pageObject.screenUrl = screenName;
+      await pageObject.processScreen();
 
-        const isLastObScreen = index === lastObScreenIndex - 1;
-        if (!isLastObScreen) {
-          await this.waitUntilOnboardingScreenChanges(screenRoute);
-        }
-      })
-    };
+      await this.waitUntilOnboardingScreenChanges(screenName);
+    }
+
     this.logger.info("Onboarding flow completed successfully");
   }
 
@@ -128,37 +97,19 @@ export class OnboardingService extends BaseService {
   private async waitUntilOnboardingScreenChanges(
     prevScreenRoute: string,
   ): Promise<void> {
-    this.logger.info(
-      `Waiting for screen to change from: ${prevScreenRoute}`,
-    );
+    this.logger.info(`Waiting for screen to change from: ${prevScreenRoute}`);
 
     await this.page.waitForFunction(
       (expectedRoute) => {
-        const funnelData = (window as any)["__FUNNEL_DATA__"];
-        return funnelData && funnelData.currentPage !== expectedRoute;
+        const segments = window.location.pathname.split("/").filter(Boolean);
+        const current = segments[segments.length - 1] ?? "";
+        return current !== expectedRoute;
       },
       prevScreenRoute,
       { timeout: timeouts.s },
     );
 
-    const funnelData = await this.funnelHelper.getFunnelData();
-    this.logger.info(
-      `Screen changed to: ${funnelData.currentPage}`,
-    );
     await this.page.waitForTimeout(timeouts.xxs);
-  }
-
-  private getFirstMonetizationScreenIndex(funnel: FunnelPage[]): number {
-    return funnel.findIndex((page) => {
-      if (page.analyticRoute === "payment" || page.route === "payment") {
-        return true;
-      }
-      const templateName = page.template ?? page.baseScreen?.template;
-      return (
-        typeof templateName === "string" &&
-        templateName in paymentTemplateMapper
-      );
-    });
   }
 
   private validateFunnelTemplates(
@@ -174,8 +125,9 @@ export class OnboardingService extends BaseService {
     const missing: Array<{ route: string; template: string }> = [];
     for (let i = 0; i < endExclusive; i++) {
       const page = funnel[i];
-      const templateName =
-        (page.template ?? page.baseScreen?.template) as keyof typeof templateMapper | undefined;
+      const templateName = (page.template ?? page.baseScreen?.template) as
+        | keyof typeof templateMapper
+        | undefined;
       if (!templateName || !templateMapper[templateName]) {
         missing.push({
           route: page.route,
@@ -188,16 +140,8 @@ export class OnboardingService extends BaseService {
         .map((m) => `route "${m.route}" -> template "${m.template}"`)
         .join("; ");
       throw new Error(
-        `Funnel template validation failed (onboarding segment only, before payment): the following screens have no matching entry in ob.template.mapper: ${details}. Add the template to ob.template.mapper or fix the funnel config.`,
+        `Funnel template validation failed (onboarding segment only, before payment): the following screens have no matching entry in onboarding.template.mapper: ${details}. Add the template to onboarding.template.mapper or fix the funnel config.`,
       );
-    }
-  }
-
-  @step("Validate initial events for onboarding funnel")
-  async validateInitialEventsForOnboarding(): Promise<void> {
-    const inittialEvents = ["$identify", "Session_start"];
-    for (const event of inittialEvents) {
-      await this.amplitudeValidator.validateEventType({ notDefaultEventType: event });
     }
   }
 }

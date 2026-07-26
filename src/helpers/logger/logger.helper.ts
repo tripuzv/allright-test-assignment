@@ -1,7 +1,7 @@
 import * as log4js from "log4js";
-import { magicStrings } from "@data/magic-strings/magicStrings.ts";
+import { magicStrings } from "@data/magic-strings/magic.strings.ts";
 import { dateHelper } from "@helpers/date/date.helper.ts";
-import { envHelper } from "@helpers/env/envHelper.ts";
+import { envHelper } from "@helpers/env/env.helper.ts";
 
 export class LoggerHelper {
   private static instance: LoggerHelper;

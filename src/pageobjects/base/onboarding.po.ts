@@ -1,7 +1,6 @@
 import { BasePo } from "./base.po.ts";
 import { Locator } from "@playwright/test";
-import { LocalStorageHelper } from "@helpers/storage/localstorage.helper.ts";
-import { FunnelPage, ScreenSettings } from "@helpers/funnel/types/funnel.types.ts";
+import { LocalStorageHelper } from "@helpers/storage/local-storage.helper.ts";
 import { timeouts } from "@constants/timeouts.constants.ts";
 
 export abstract class OnboardingPo extends BasePo {
@@ -13,7 +12,7 @@ export abstract class OnboardingPo extends BasePo {
     this.localStorageHelper = new LocalStorageHelper();
   }
 
-  abstract processScreen(funnelPage: FunnelPage): Promise<void>;
+  abstract processScreen(): Promise<void>;
 
   set screenUrl(value: string) {
     this._screenUrl = value;
@@ -21,6 +20,12 @@ export abstract class OnboardingPo extends BasePo {
 
   get screenUrl(): string {
     return this._screenUrl;
+  }
+
+  get currentScreenName(): string {
+    const pathname = new URL(this.page.url()).pathname;
+    const segments = pathname.split("/").filter(Boolean);
+    return segments.at(-1) ?? "";
   }
 
   get options(): Promise<Locator[]> {
@@ -38,9 +43,6 @@ export abstract class OnboardingPo extends BasePo {
   get progressBar(): Locator {
     return this.page.getByTestId("progressBar");
   }
-  protected getScreenSettings(funnelPage: FunnelPage): ScreenSettings | undefined {
-    return funnelPage.settings ?? funnelPage.baseScreen?.settings;
-}
 
   async clickContinueButton(force = false): Promise<void> {
     const continueButtonElement = await this.bottomContainer.isVisible() ? this.bottomContainer.getByTestId('obContinueBtn') : this.continueButton;
@@ -74,5 +76,28 @@ export abstract class OnboardingPo extends BasePo {
     const optionText = await options[randomIndex].textContent();
     await this.selectOptionByIndex(options, randomIndex, isForce);
     this.logger.info(`Selected option ${randomIndex}, ${optionText}`);
+  }
+
+  async chooseRandomOption(
+    options?: Locator[],
+    isForce = false,
+  ): Promise<string> {
+    const screenName = this.currentScreenName;
+    const opts = options ?? (await this.options);
+    if (!opts.length) {
+      throw new Error(`No options found on screen: ${screenName}`);
+    }
+
+    const randomIndex = Math.floor(Math.random() * opts.length);
+    const text = ((await opts[randomIndex].textContent()) || "")
+      .trim()
+      .replace(/\s+/g, " ");
+
+    await this.elementHelper.setChosenObOptions([text], screenName);
+    await this.elementHelper.attachChosenObOptions([text], screenName);
+    await this.selectOptionByIndex(opts, randomIndex, isForce);
+
+    this.logger.info(`Selected option on ${screenName}: ${text}`);
+    return text;
   }
 }
