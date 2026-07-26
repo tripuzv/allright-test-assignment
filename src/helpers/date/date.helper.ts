@@ -1,5 +1,4 @@
 export const dateHelper = {
-  /** Filesystem-safe time stamp (HH-MM-SS). Colons break GitHub upload-artifact / NTFS. */
   getCurrentTime(): string {
     const now = new Date();
     const pad = (n: number) => String(n).padStart(2, "0");
