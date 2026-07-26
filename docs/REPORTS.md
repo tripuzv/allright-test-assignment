@@ -1,6 +1,6 @@
 # Test Reports
 
-Reports available **locally** after a run. This assignment does not publish reports to S3 or Slack by default.
+Reports are available **locally** after a run, and on **CI** are also uploaded to S3 / CloudFront (see [CI Setup](./CI_SETUP.md) and [AWS setup](./AWS_S3_CLOUDFRONT_SETUP.md)).
 
 ## Playwright HTML report
 
@@ -48,12 +48,26 @@ When `GROUP_SCREENSHOTS=true`, screenshots are also collected into a single HTML
 
 ![Grouped screenshots example](./assets/images/grouped-screenshots-example.png)
 
+## CI / S3 URLs
+
+On GitHub Actions the job prints CloudFront URLs for:
+
+| Report | S3 folder | Entry |
+|--------|-----------|--------|
+| Allure | `.../allure/{timestamp}/` | `index.html` |
+| Playwright | `.../trace/{timestamp}/` | `index.html` |
+| Screenshots | `.../screenshots/{timestamp}/` | `grouped-screenshots.html` |
+
+Paths are also written to `artifacts/report-urls.txt`.
+
 ## Artifacts layout
 
 ```
 artifacts/
 ├── screenshots/
-└── grouped-screenshots.html   # when GROUP_SCREENSHOTS=true
+├── grouped-screenshots.html   # when GROUP_SCREENSHOTS=true
+├── report-urls.txt            # CI: CloudFront URLs
+└── trace_report_s3_bucket.txt # CI: S3 path for Playwright HTML
 playwright-report/
 allure-results/
 allure-report/
@@ -73,3 +87,6 @@ test-results/          # traces, failure dumps
 ### Missing screenshots
 - Confirm `artifacts/screenshots/` after a full smoke pass
 - Global setup prepares artifact directories on run start
+
+### CI upload skipped
+- Set repo Variables `S3_BUCKET`, `S3_DOMAIN` and Secrets `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`

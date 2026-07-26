@@ -46,6 +46,18 @@ export class EnvHelper {
       .toLowerCase();
     return value === "parent" ? "parent" : "child";
   }
+
+  get suite(): string {
+    return this.getVariableByName(EnvVariable.SUITE, true) ?? "smoke";
+  }
+
+  get s3Bucket(): string {
+    return this.getVariableByName(EnvVariable.S3_BUCKET, true) ?? "";
+  }
+
+  get s3Domain(): string {
+    return this.getVariableByName(EnvVariable.S3_DOMAIN, true) ?? "";
+  }
 }
 
 export const envHelper = new EnvHelper();

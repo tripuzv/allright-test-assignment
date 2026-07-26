@@ -5,6 +5,7 @@ import { spawn } from "node:child_process";
 import { magicStrings } from "@data/magic-strings/magic.strings.ts";
 import { IAllureStatisticObject } from "@reports/types/allure-stat.types.ts";
 import { envHelper } from "@helpers/env/env.helper.ts";
+import { s3Helper } from "@helpers/s3/s3.helper.ts";
 import fs from "fs";
 import { StatisticUtil } from "@reports/stat.util.ts";
 
@@ -192,6 +193,14 @@ export class Reporter {
     }
   }
 
+  public static generateTraceBucketPath(): string {
+    return s3Helper.buildBucketPath("trace");
+  }
+
+  public static generateScreenshotBucketPath(): string {
+    return s3Helper.buildBucketPath("screenshots");
+  }
+
   public static async uploadScreenshotReport(): Promise<string | undefined> {
     const screenshotHtmlPath = "artifacts/grouped-screenshots.html";
 
@@ -202,6 +211,15 @@ export class Reporter {
       return undefined;
     }
 
+    if (!s3Helper.isConfigured) {
+      console.warn(
+        "[Reporter] - S3_BUCKET/S3_DOMAIN not set, skipping screenshot report upload",
+      );
+      return undefined;
+    }
+
+    const bucketPath = Reporter.generateScreenshotBucketPath();
+
     try {
       const tempDir = "artifacts/screenshots-temp";
       if (!fs.existsSync(tempDir)) {
@@ -210,15 +228,78 @@ export class Reporter {
       const tempFilePath = `${tempDir}/grouped-screenshots.html`;
       fs.copyFileSync(screenshotHtmlPath, tempFilePath);
 
+      await s3Helper.syncFolderWithBucket(`${tempDir}/`, bucketPath);
+
       fs.unlinkSync(tempFilePath);
       fs.rmdirSync(tempDir);
 
-      return undefined;
+      return bucketPath;
     } catch (error) {
       console.error(
         `[Reporter] - Failed to upload screenshot report: ${error}`,
       );
       return undefined;
     }
+  }
+
+  public static async uploadAllureReport(): Promise<string | undefined> {
+    if (!s3Helper.isConfigured) {
+      console.warn(
+        "[Reporter] - S3_BUCKET/S3_DOMAIN not set, skipping Allure report upload",
+      );
+      return undefined;
+    }
+
+    try {
+      const generated = await Reporter.generateAllureReport();
+      if (!generated) {
+        return undefined;
+      }
+      if (!fs.existsSync("allure-report")) {
+        console.warn(
+          "[Reporter] - allure-report does not exist, skipping upload",
+        );
+        return undefined;
+      }
+      const bucketPath = s3Helper.buildBucketPath("allure");
+      await s3Helper.syncFolderWithBucket("allure-report/", bucketPath);
+      return bucketPath;
+    } catch (error) {
+      console.error(`[Reporter] - Failed to upload Allure report: ${error}`);
+      return undefined;
+    }
+  }
+
+  public static writeReportUrls(urls: {
+    allure?: string;
+    screenshots?: string;
+    traceBucketPath?: string;
+  }): void {
+    const lines: string[] = [];
+    if (urls.allure) {
+      lines.push(`ALLURE_URL=${urls.allure}`);
+    }
+    if (urls.screenshots) {
+      lines.push(`SCREENSHOTS_URL=${urls.screenshots}`);
+    }
+    if (urls.traceBucketPath) {
+      lines.push(`TRACE_BUCKET_PATH=${urls.traceBucketPath}`);
+    }
+    fs.mkdirSync("artifacts", { recursive: true });
+    fs.writeFileSync("artifacts/report-urls.txt", `${lines.join("\n")}\n`, "utf-8");
+  }
+
+  public static printReportUrls(urls: {
+    allure?: string;
+    screenshots?: string;
+    trace?: string;
+  }): void {
+    console.log("=".repeat(60));
+    console.log("Report URLs (CloudFront / Basic Auth required)");
+    console.log("=".repeat(60));
+    console.log(`Allure:       ${urls.allure ?? "(not uploaded)"}`);
+    console.log(`Playwright:   ${urls.trace ?? "(not uploaded yet)"}`);
+    console.log(`Screenshots:  ${urls.screenshots ?? "(not uploaded)"}`);
+    console.log("=".repeat(60));
   }
 }
