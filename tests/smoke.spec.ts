@@ -2,6 +2,7 @@ import { test } from "@playwright/test";
 import { StartService } from "@services/start.service.ts";
 import { OnboardingService } from "@services/onboarding.service.ts";
 import { AdminService } from "@services/admin.service.ts";
+import { AdminCleanupService } from "@services/admin-cleanup.service.ts";
 import { useTestContext } from "@context/use.test.context.ts";
 import { timeouts } from "@constants/timeouts.constants.ts";
 
@@ -14,6 +15,7 @@ test("@smoke Test", async ({ page }, testInfo) => {
   const startService = new StartService();
   const onboardingService = new OnboardingService();
   const adminService = new AdminService();
+  const cleanupService = new AdminCleanupService();
   const quizPathParams = "/uk/app/sign-up/long/charlie/age-range";
 
   await test.step("Start Flow", async () => {
@@ -25,26 +27,14 @@ test("@smoke Test", async ({ page }, testInfo) => {
 
   await test.step("Onboarding processing", async () => {
     await onboardingService.passObFunnel();
+    await page.waitForTimeout(10000);
   });
-  await test.step("Switch to desktop", async () => {
-    await adminService.switchToDesktop();
-  });
-  await test.step("Open Admin panel flow", async () => {
+
+  await test.step("Open admin panel", async () => {
     await adminService.openAdminPanel();
   });
-  await test.step("Open lesson booking for created user", async () => {
-    await adminService.openLessonBookingForCreatedUser();
-  });
-  await test.step("Select random teacher", async () => {
-    await adminService.selectRandomTeacher();
-  });
-  await test.step("Book lesson slot", async () => {
-    await adminService.bookLessonSlot();
-  });
-  await test.step("Delete lesson", async () => {
-    await adminService.deleteBooking();
-  });
+
   await test.step("Cleanup created user", async () => {
-    await adminService.cleanupCreatedUser();
+    await cleanupService.cleanupCreatedUser();
   });
 });

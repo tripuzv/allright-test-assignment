@@ -27,6 +27,8 @@
    | `LOG_LEVEL`         | `info`   | Logger level                                                            |
    | `GROUP_SCREENSHOTS` | `true`   | Optional screenshot grouping                                            |
 
+   Admin API cleanup uses the bearer token from `ember_simple_auth-session` in localStorage after the smoke test opens the admin panel — no separate admin token env var is required.
+
 4. **Install browsers**
 
    ```bash
