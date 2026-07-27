@@ -24,10 +24,6 @@ export class RequestGottenPo extends OnboardingPo {
     await expect(this.page).toHaveURL(new RegExp(`/${this.stepName}(?:\\?|$)`));
     await expect(this.successBanner).toBeVisible();
 
-    await this.elementHelper.setChosenObOptions(
-      ["request-gotten-validated"],
-      this.stepName,
-    );
     await this.elementHelper.attachChosenObOptions(
       ["request-gotten-validated"],
       this.stepName,

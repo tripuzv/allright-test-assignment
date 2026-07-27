@@ -33,10 +33,6 @@ export class LessonTimeSelectPo extends OnboardingPo {
     await this.selectedDay.waitFor({ state: "visible" });
     await this.selectedTimeSlot.waitFor({ state: "visible" });
 
-    await this.elementHelper.setChosenObOptions(
-      ["preselected-lesson-slot"],
-      this.stepName,
-    );
     await this.elementHelper.attachChosenObOptions(
       ["preselected-lesson-slot"],
       this.stepName,

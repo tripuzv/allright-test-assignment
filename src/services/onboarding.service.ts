@@ -46,12 +46,10 @@ export class OnboardingService extends BaseService {
         }
 
         const pageObject = new config.pageReference() as OnboardingPo;
-        pageObject.screenUrl = screenName;
 
         let isLastStep = false;
 
         await test.step(`Process ${screenName} screen`, async () => {
-          globalStore.set("currentScreen", screenName);
           this.logger.info(`Processing onboarding screen: ${screenName}`);
 
           await this.screenShotHelper.capture({ name: screenName });

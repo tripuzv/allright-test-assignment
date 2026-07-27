@@ -58,7 +58,6 @@ export class UserInfoNamePo extends OnboardingPo {
     await this.parentNameInput.fill(name);
 
     globalStore.set("parentName", name);
-    await this.elementHelper.setChosenObOptions([name], this.stepName);
     await this.elementHelper.attachChosenObOptions([name], this.stepName);
 
     await this.elementHelper.waitForClickable(this.continueButtonOnScreen);
@@ -89,10 +88,6 @@ export class UserInfoNamePo extends OnboardingPo {
     await this.elementHelper.click(whoFillsButton);
 
     const whoFillsText = ((await whoFillsButton.textContent()) || "").trim();
-    await this.elementHelper.setChosenObOptions(
-      [whoFillsText],
-      `${this.stepName}__who-fills`,
-    );
     await this.elementHelper.attachChosenObOptions(
       [whoFillsText],
       `${this.stepName}__who-fills`,

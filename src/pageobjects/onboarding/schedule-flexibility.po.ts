@@ -35,7 +35,6 @@ export class ScheduleFlexibilityPo extends OnboardingPo {
       .trim()
       .replace(/\s+/g, " ");
 
-    await this.elementHelper.setChosenObOptions([text], this.stepName);
     await this.elementHelper.attachChosenObOptions([text], this.stepName);
     await this.elementHelper.waitForClickable(option);
     await this.elementHelper.click(option);

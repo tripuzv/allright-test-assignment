@@ -53,7 +53,6 @@ export class UserInfoPhonePo extends OnboardingPo {
       `${this.stepName}: country=${countryName}, e164=${e164}, national=${national}, entered=${enteredValue}`,
     );
 
-    await this.elementHelper.setChosenObOptions([e164], this.stepName);
     await this.elementHelper.attachChosenObOptions([e164], this.stepName);
     globalStore.set("userPhone", e164);
 

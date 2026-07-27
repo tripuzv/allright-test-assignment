@@ -17,7 +17,7 @@ export class BaseService {
     this.localStorageHelper = new LocalStorageHelper();
   }
 
-  async refresh() {
+  async refresh(): Promise<void> {
     await this.page.reload();
   }
 }

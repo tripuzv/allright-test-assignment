@@ -55,7 +55,6 @@ export class ChildHobbyPo extends OnboardingPo {
       await this.elementHelper.click(option, true);
     }
 
-    await this.elementHelper.setChosenObOptions(selectedTexts, this.stepName);
     await this.elementHelper.attachChosenObOptions(
       selectedTexts,
       this.stepName,

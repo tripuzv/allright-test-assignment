@@ -3,20 +3,10 @@ import { Locator } from "@playwright/test";
 import { timeouts } from "@constants/timeouts.constants.ts";
 
 export abstract class OnboardingPo extends BasePo {
-  private _screenUrl = "";
-
   abstract processScreen(): Promise<void>;
 
   get isLastStep(): boolean {
     return false;
-  }
-
-  set screenUrl(value: string) {
-    this._screenUrl = value;
-  }
-
-  get screenUrl(): string {
-    return this._screenUrl;
   }
 
   get currentScreenName(): string {

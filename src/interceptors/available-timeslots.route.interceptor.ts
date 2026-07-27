@@ -2,7 +2,6 @@ import { Page } from "@playwright/test";
 import { step } from "@decorators/step.ts";
 import { apiConstants } from "@constants/api.constants.ts";
 import { availableTimeslotsMockHelper } from "@helpers/mocks/available-timeslots.mock.helper.ts";
-import { globalStore } from "@helpers/storage/global-data.storage.ts";
 import { LoggerHelper } from "@helpers/logger/logger.helper.ts";
 
 export class AvailableTimeslotsRouteInterceptor {
@@ -22,8 +21,6 @@ export class AvailableTimeslotsRouteInterceptor {
     }
 
     const responseBody = availableTimeslotsMockHelper.buildResponse();
-
-    globalStore.set("mockedAvailableTimeslotsCount", responseBody.data.length);
 
     await this.page.route(this.routePattern, async (route) => {
       if (route.request().method().toUpperCase() !== "GET") {

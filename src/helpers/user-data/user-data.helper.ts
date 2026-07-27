@@ -8,7 +8,7 @@ import {
 
 type CountryName = (typeof CountryNames)[keyof typeof CountryNames];
 
-export type GeneratedPhone = {
+type GeneratedPhone = {
   e164: string;
   national: string;
 };

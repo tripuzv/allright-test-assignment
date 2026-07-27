@@ -1,6 +1,6 @@
 import { apiConstants } from "@constants/api.constants.ts";
 
-export type AvailableTimeslotResource = {
+type AvailableTimeslotResource = {
   type: typeof apiConstants.availableTimeslotType;
   id: string;
   attributes: {
@@ -8,7 +8,7 @@ export type AvailableTimeslotResource = {
   };
 };
 
-export type AvailableTimeslotsResponse = {
+type AvailableTimeslotsResponse = {
   data: AvailableTimeslotResource[];
 };
 

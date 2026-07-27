@@ -32,7 +32,6 @@ export class UserInfoEmailPo extends OnboardingPo {
     await this.emailInput.fill(email);
 
     globalStore.set("userEmail", email);
-    await this.elementHelper.setChosenObOptions([email], this.stepName);
     await this.elementHelper.attachChosenObOptions([email], this.stepName);
 
     await this.elementHelper.waitForClickable(this.continueButtonOnScreen);

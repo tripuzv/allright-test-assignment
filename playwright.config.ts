@@ -34,9 +34,6 @@ export default defineConfig({
     locale: "en-US",
     trace: "on",
     testIdAttribute: "data-testid",
-    launchOptions: {
-      slowMo: 1,
-    },
     screenshot: "only-on-failure",
     browserName: envHelper.browserName ?? "webkit",
     isMobile: true,

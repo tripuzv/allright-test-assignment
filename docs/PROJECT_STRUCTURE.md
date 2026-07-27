@@ -50,7 +50,7 @@ allright-test-assignment/
 ### `helpers/`
 
 - `asserts/` — soft assertion helpers
-- `elements/` — clicks, waits, `setChosenObOptions` / Allure attach
+- `elements/` — clicks, waits, Allure attach for chosen options
 - `env/` — `SERVER`, `BROWSER_NAME`, `WHO_FILLS_FORM`, `S3_*`, …
 - `s3/` — `aws s3 sync` + CloudFront URL builder
 - `logger/`, `math/`, `screenshot/`, `storage/` (`global-data.storage.ts`)

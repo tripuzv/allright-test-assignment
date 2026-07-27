@@ -2,12 +2,11 @@ import { BaseService } from "@services/base.service.ts";
 import { step } from "@decorators/step.ts";
 import { envHelper } from "@helpers/env/env.helper.ts";
 import { CookieBannerPo } from "@pom/general/cookie-banner.po.ts";
-import { globalStore } from "@helpers/storage/global-data.storage.ts";
 import { AvailableTimeslotsRouteInterceptor } from "@interceptors/available-timeslots.route.interceptor.ts";
 
-export type CookieAction = "accept" | "reject";
+type CookieAction = "accept" | "reject";
 
-export interface IOpenAppOptions {
+interface IOpenAppOptions {
   path?: string;
   cookieAction?: CookieAction;
 }
@@ -63,10 +62,6 @@ export class StartService extends BaseService {
       this.logger.warn("experiments localStorage has no alias/variant");
       return;
     }
-
-    globalStore.set("experimentAlias", experiment.alias);
-    globalStore.set("experimentVariant", experiment.variant);
-    globalStore.set("runningExperiment", experiment);
 
     await this.reporter.attach(
       "running experiment",

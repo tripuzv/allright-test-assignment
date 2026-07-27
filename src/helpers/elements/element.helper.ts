@@ -2,7 +2,6 @@ import { timeouts } from "@constants/timeouts.constants";
 import { Locator } from "@playwright/test";
 import { IWaitForOptions } from "./types/element.types";
 import { BaseHelper } from "@helpers/base/base.helper.ts";
-import { globalStore } from "@helpers/storage/global-data.storage.ts";
 import { ContentType } from "allure-js-commons";
 
 export class ElementHelper extends BaseHelper {
@@ -54,18 +53,6 @@ export class ElementHelper extends BaseHelper {
         : chosenOptionTexts,
       ContentType.TEXT,
     );
-  }
-
-  async setChosenObOptions(
-    chosenOptionTexts: string[],
-    screenName: string,
-  ): Promise<void> {
-    const value =
-      chosenOptionTexts.length === 1
-        ? chosenOptionTexts[0]
-        : JSON.stringify(chosenOptionTexts);
-
-    globalStore.set(`chosenOption__${screenName}`, value);
   }
 
   async waitForClickable(

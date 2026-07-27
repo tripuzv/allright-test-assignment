@@ -290,8 +290,6 @@ export class OnboardingApiValidator {
       message:
         "Business outcome: trial balance must have lessons-available or lessons-bonus > 0",
     });
-
-    globalStore.set("trialEntitlementGranted", hasAvailableTrial);
   }
 
   @step("Validate user identity fields against entered OB data")

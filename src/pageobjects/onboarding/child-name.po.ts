@@ -30,7 +30,6 @@ export class ChildNamePo extends OnboardingPo {
     await this.nameInput.fill(name);
 
     globalStore.set("childName", name);
-    await this.elementHelper.setChosenObOptions([name], this.stepName);
     await this.elementHelper.attachChosenObOptions([name], this.stepName);
 
     await this.elementHelper.waitForClickable(this.continueButtonOnScreen);
