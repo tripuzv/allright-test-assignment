@@ -19,6 +19,7 @@ import { ChildHobbyPo } from "@pom/onboarding/child-hobby.po.ts";
 import { UserInfoNamePo } from "@pom/onboarding/user-info-name.po.ts";
 import { UserInfoPhonePo } from "@pom/onboarding/user-info-phone.po.ts";
 import { UserInfoEmailPo } from "@pom/onboarding/user-info-email.po.ts";
+import { LessonTimeSelectPo } from "@pom/onboarding/lesson-time-select.po.ts";
 import { RequestGottenPo } from "@pom/onboarding/request-gotten.po.ts";
 
 export const templateMapper: ITemplateMapper = {
@@ -101,6 +102,10 @@ export const templateMapper: ITemplateMapper = {
   "user-info-email": {
     templateId: "user-info-email",
     pageReference: UserInfoEmailPo,
+  },
+  "lesson-time-select": {
+    templateId: "lesson-time-select",
+    pageReference: LessonTimeSelectPo,
   },
   "request-gotten": {
     templateId: "request-gotten",

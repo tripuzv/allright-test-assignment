@@ -3,6 +3,7 @@ import { step } from "@decorators/step.ts";
 import { envHelper } from "@helpers/env/env.helper.ts";
 import { CookieBannerPo } from "@pom/general/cookie-banner.po.ts";
 import { globalStore } from "@helpers/storage/global-data.storage.ts";
+import { AvailableTimeslotsRouteInterceptor } from "@interceptors/available-timeslots.route.interceptor.ts";
 
 export type CookieAction = "accept" | "reject";
 
@@ -18,12 +19,17 @@ interface IExperiment {
 
 export class StartService extends BaseService {
   private readonly cookieBanner = new CookieBannerPo();
+  private readonly availableTimeslotsMock = new AvailableTimeslotsRouteInterceptor(
+    this.page,
+  );
 
   @step("Open start URL and handle cookie banner")
   async openApp(options: IOpenAppOptions = {}): Promise<void> {
     const path = options.path;
     const cookieAction = options.cookieAction ?? "accept";
     const url = `${envHelper.quizBaseUrl}${path}`;
+
+    await this.availableTimeslotsMock.enable();
 
     this.logger.info(`Opening start URL: ${url}`);
     await this.page.goto(url, { waitUntil: "domcontentloaded" });

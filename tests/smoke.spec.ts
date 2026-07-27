@@ -6,7 +6,7 @@ import { AdminCleanupService } from "@services/admin-cleanup.service.ts";
 import { useTestContext } from "@context/use.test.context.ts";
 import { timeouts } from "@constants/timeouts.constants.ts";
 
-test.setTimeout(3 * timeouts.minute);
+test.setTimeout(2 * timeouts.minute);
 test("@smoke Test", async ({ page }, testInfo) => {
   const { setPage, setTestInfo } = useTestContext();
   setPage(page);
@@ -27,7 +27,6 @@ test("@smoke Test", async ({ page }, testInfo) => {
 
   await test.step("Onboarding processing", async () => {
     await onboardingService.passObFunnel();
-    await page.waitForTimeout(10000);
   });
 
   await test.step("Open admin panel", async () => {
