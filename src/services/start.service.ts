@@ -23,7 +23,7 @@ export class StartService extends BaseService {
   async openApp(options: IOpenAppOptions = {}): Promise<void> {
     const path = options.path;
     const cookieAction = options.cookieAction ?? "accept";
-    const url = `${envHelper.baseUrl}${path}`;
+    const url = `${envHelper.quizBaseUrl}${path}`;
 
     this.logger.info(`Opening start URL: ${url}`);
     await this.page.goto(url, { waitUntil: "domcontentloaded" });

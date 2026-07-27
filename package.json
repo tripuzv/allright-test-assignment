@@ -31,6 +31,7 @@
     "ajv-formats": "^3.0.1",
     "allure-commandline": "2.32.2",
     "allure-js-commons": "3.4.2",
+    "axios": "^1.18.1",
     "libphonenumber-js": "^1.13.9",
     "log4js": "6.9.1",
     "phone-number-generator-js": "^1.4.0",

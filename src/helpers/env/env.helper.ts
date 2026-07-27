@@ -20,8 +20,12 @@ export class EnvHelper {
     return this.getVariableByName(EnvVariable.IS_CI) === "true";
   }
 
-  get baseUrl(): string {
-    return urlConstants[this.environment as keyof typeof urlConstants];
+  get quizBaseUrl(): string {
+    return urlConstants.quiz[this.environment as keyof typeof urlConstants.quiz];
+  }
+
+  get adminBaseUrl(): string {
+    return urlConstants.admin[this.environment as keyof typeof urlConstants.admin];
   }
 
   getLogLevel(): string {
