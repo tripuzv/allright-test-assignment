@@ -50,24 +50,18 @@ export abstract class AdminBasePo extends BasePo {
     return this.visiblePowerSelectOptionsWithUserId.filter({ hasText: email });
   }
 
+  protected async emberClick(element: Locator): Promise<void> {
+    await element.scrollIntoViewIfNeeded();
+    await element.evaluate((el: HTMLElement) => {
+      el.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+      el.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
+      el.click();
+    });
+  }
+
   protected async openPowerSelect(trigger: Locator): Promise<void> {
-    await trigger.scrollIntoViewIfNeeded();
     await this.elementHelper.waitForClickable(trigger);
-
-    for (let attempt = 0; attempt < 3; attempt++) {
-      await this.elementHelper.click(trigger);
-
-      const opened = await this.visiblePowerSelectDropdown
-        .isVisible({ timeout: timeouts.xxs })
-        .catch(() => false);
-
-      if (opened) {
-        break;
-      }
-
-      await this.page.waitForTimeout(timeouts.animation);
-    }
-
+    await this.emberClick(trigger);
     await this.visiblePowerSelectDropdown.waitFor({
       state: "visible",
       timeout: timeouts.s,
@@ -88,7 +82,7 @@ export abstract class AdminBasePo extends BasePo {
     const option = this.powerSelectOptionByEmail(email);
     await expect(option.first()).toBeVisible({ timeout: timeouts.m });
     await option.first().scrollIntoViewIfNeeded();
-    await this.elementHelper.click(option.first());
+    await this.emberClick(option.first());
 
     await expect(this.visiblePowerSelectDropdown).toBeHidden({
       timeout: timeouts.s,
@@ -112,7 +106,7 @@ export abstract class AdminBasePo extends BasePo {
 
     await selected.scrollIntoViewIfNeeded();
     const optionText = (await selected.innerText()).trim();
-    await this.elementHelper.click(selected);
+    await this.emberClick(selected);
 
     await expect(this.visiblePowerSelectDropdown).toBeHidden({
       timeout: timeouts.s,

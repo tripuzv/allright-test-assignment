@@ -32,8 +32,8 @@ test("@smoke Test", async ({ page }, testInfo) => {
   await test.step("Open Admin panel flow", async () => {
     await adminService.openAdminPanel();
   });
-  await test.step("Search student by email", async () => {
-    await adminService.searchStudentByEmail();
+  await test.step("Open lesson booking for created user", async () => {
+    await adminService.openLessonBookingForCreatedUser();
   });
   await test.step("Select random teacher", async () => {
     await adminService.selectRandomTeacher();

@@ -39,23 +39,25 @@ export class AdminService extends BaseService {
   }
 
   @step("Open lesson booking page")
-  async openLessonBooking(): Promise<void> {
-    if (this.isOnLessonBookingPage()) {
-      await this.lessonBooking.waitForReady();
+  async openLessonBooking(userId?: string): Promise<void> {
+    const resolvedUserId = userId ?? this.resolveCreatedUserId();
+    const bookingUrl = this.buildBookingUrl(resolvedUserId);
+
+    if (this.isOnLessonBookingPage(resolvedUserId)) {
+      await this.lessonBooking.waitForReady(resolvedUserId);
       return;
     }
 
-    await this.page.goto(adminConstants.bookingPath, {
+    this.logger.info(`Opening lesson booking: ${bookingUrl}`);
+    await this.page.goto(bookingUrl, {
       waitUntil: "domcontentloaded",
     });
-    await this.lessonBooking.waitForReady();
+    await this.lessonBooking.waitForReady(resolvedUserId);
   }
 
-  @step("Search student by email")
-  async searchStudentByEmail(email?: string): Promise<void> {
-    const userEmail = this.resolveUserEmail(email);
-    await this.openLessonBooking();
-    await this.lessonBooking.searchStudentByEmail(userEmail);
+  @step("Open lesson booking for created user")
+  async openLessonBookingForCreatedUser(userId?: string): Promise<void> {
+    await this.openLessonBooking(userId);
   }
 
   @step("Select random teacher")
@@ -69,18 +71,20 @@ export class AdminService extends BaseService {
   }
 
   @step("Book lesson for user")
-  async bookLessonForUser(email?: string): Promise<void> {
-    await this.searchStudentByEmail(email);
+  async bookLessonForUser(userId?: string): Promise<void> {
+    await this.openLessonBookingForCreatedUser(userId);
     await this.selectRandomTeacher();
     await this.bookLessonSlot();
   }
 
   @step("Delete booking in admin")
   async deleteBooking(): Promise<void> {
-    if (!this.isOnLessonBookingPage()) {
-      await this.openLessonBooking();
+    const userId = this.resolveCreatedUserId();
+
+    if (!this.isOnLessonBookingPage(userId)) {
+      await this.openLessonBooking(userId);
     } else {
-      await this.lessonBooking.waitForReady();
+      await this.lessonBooking.waitForReady(userId);
     }
 
     await this.lessonBooking.deleteBookedSlot();
@@ -91,11 +95,29 @@ export class AdminService extends BaseService {
     await this.cleanupService.cleanupCreatedUser(userId);
   }
 
-  private isOnLessonBookingPage(): boolean {
-    return /\/app\/admin\/booking/.test(this.page.url());
+  private isOnLessonBookingPage(userId?: string): boolean {
+    if (!/\/app\/admin\/booking/.test(this.page.url())) {
+      return false;
+    }
+
+    if (!userId) {
+      return true;
+    }
+
+    return new URL(this.page.url()).searchParams.get("user_id") === userId;
   }
 
-  private resolveUserEmail(email?: string): string {
-    return email ?? globalStore.get<string>("userEmail");
+  private buildBookingUrl(userId: string): string {
+    return `${envHelper.quizBaseUrl}${adminConstants.bookingPath}?user_id=${userId}`;
+  }
+
+  private resolveCreatedUserId(): string {
+    const userId = globalStore.get<string>("createdUserId");
+
+    if (!userId) {
+      throw new Error("createdUserId not found in global store");
+    }
+
+    return userId;
   }
 }

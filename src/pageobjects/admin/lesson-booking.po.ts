@@ -9,13 +9,15 @@ export class LessonBookingPo extends AdminBasePo {
   get studentSearchTrigger(): Locator {
     return this.userFieldGroups
       .first()
-      .locator(".ember-power-select-trigger");
+      .locator(".ember-power-select-trigger")
+      .first();
   }
 
   get teacherSearchTrigger(): Locator {
     return this.userFieldGroups
       .filter({ has: this.page.locator(".filter-sort-wrap") })
-      .locator(".ember-power-select-trigger");
+      .locator(".ember-power-select-trigger")
+      .first();
   }
 
   get freeTimeSlots(): Locator {
@@ -28,17 +30,28 @@ export class LessonBookingPo extends AdminBasePo {
     );
   }
 
-  async waitForReady(): Promise<void> {
+  async waitForReady(userId?: string): Promise<void> {
     await expect(this.page).toHaveURL(/\/app\/admin\/booking/, {
       timeout: timeouts.s,
     });
+
+    if (userId) {
+      await expect(this.page).toHaveURL(
+        new RegExp(`user_id=${userId}`),
+        { timeout: timeouts.s },
+      );
+    }
+
     await expect(this.studentSearchTrigger).toBeVisible({
       timeout: timeouts.s,
     });
-  }
 
-  async searchStudentByEmail(email: string): Promise<void> {
-    await this.searchByEmailInPowerSelect(this.studentSearchTrigger, email);
+    if (userId) {
+      await expect(this.studentSearchTrigger).toContainText(
+        new RegExp(`#${userId}\\b|#\\d+`),
+        { timeout: timeouts.m },
+      );
+    }
   }
 
   async selectRandomTeacher(): Promise<void> {
